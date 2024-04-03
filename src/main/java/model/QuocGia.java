@@ -1,8 +1,11 @@
 package model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -13,6 +16,49 @@ public class QuocGia {
 	@Id
 	private String maQuocGia;
 
-	@Column(name="tenquocgia")
+	@Column(name = "tenquocgia")
 	private String tenQuocGia;
+	@OneToMany(mappedBy = "quocGia")
+	private List<DienVienDaoDien> dienVienDaoDiens;
+	
+	@OneToMany(mappedBy = "quocGia")
+	private List<Phim> phims;
+
+	public QuocGia() {
+		
+	}
+
+	public String getMaQuocGia() {
+		return maQuocGia;
+	}
+
+	public void setMaQuocGia(String maQuocGia) {
+		this.maQuocGia = maQuocGia;
+	}
+
+	public String getTenQuocGia() {
+		return tenQuocGia;
+	}
+
+	public void setTenQuocGia(String tenQuocGia) {
+		this.tenQuocGia = tenQuocGia;
+	}
+
+	public List<DienVienDaoDien> getDienVienDaoDiens() {
+		return dienVienDaoDiens;
+	}
+
+	public void setDienVienDaoDiens(List<DienVienDaoDien> dienVienDaoDiens) {
+		this.dienVienDaoDiens = dienVienDaoDiens;
+	}
+
+	public List<Phim> getPhims() {
+		return phims;
+	}
+
+	public void setPhims(List<Phim> phims) {
+		this.phims = phims;
+	}
+	
+	
 }
