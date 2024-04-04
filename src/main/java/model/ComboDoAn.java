@@ -2,8 +2,11 @@ package model;
 
 import java.util.List;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -14,6 +17,8 @@ public class ComboDoAn {
 	
 	@Id
 	@Column(name = "maCombo")
+	@GenericGenerator(name = "sequence_combo_id",strategy = "helper.ComboDoAnGeneratorID")
+	@GeneratedValue(generator = "sequence_combo_id")
 	private String maCombo;
 	
 	@Column(name = "tenCombo")

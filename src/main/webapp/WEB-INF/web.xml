@@ -21,12 +21,12 @@
   </welcome-file-list>
   <servlet>
     <description></description>
-    <display-name>ComboServlet</display-name>
-    <servlet-name>ComboServlet</servlet-name>
-    <servlet-class>admincontroller.ComboServlet</servlet-class>
+    <display-name>LoaiHinhServlet</display-name>
+    <servlet-name>LoaiHinhServlet</servlet-name>
+    <servlet-class>admincontroller.LoaiHinhServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ComboServlet</servlet-name>
-    <url-pattern>/ComboServlet</url-pattern>
+    <servlet-name>LoaiHinhServlet</servlet-name>
+    <url-pattern>/LoaiHinhServlet</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -3,20 +3,20 @@ package helper;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 
-import dao.KhuyenMaiDAO;
-import dao.ThanhPhoDAO;
+import dao.LoaiTaiKhoanDAO;
+import dao.RapPhimDAO;
 
-public class KhuyenMaiGeneratorID implements IdentifierGenerator{
+public class LoaiTaiKhoanGeneratorID implements IdentifierGenerator {
 	@Override
 	public Object generate(SharedSessionContractImplementor session, Object object) {
-		KhuyenMaiDAO khuyenMaiDAO = new KhuyenMaiDAO();
-		String id = khuyenMaiDAO.maxIDKhuyenMai();
-		String result="";
+		LoaiTaiKhoanDAO loaiTaiKhoanDAO = new LoaiTaiKhoanDAO();
+		String id = loaiTaiKhoanDAO.maxIDLoaiTaiKhoan();
+		String result = "";
 		if (id == null || id.equals("")) {
-			result = "KK00000000";
+			result = "LTK0000000";
 		} else {
 			int number = Integer.parseInt(id.substring(2));
-			result = String.format("%s%08d", "KK", ++number);
+			result = String.format("%s%07d", "LTK", ++number);
 		}
 		return result;
 	}

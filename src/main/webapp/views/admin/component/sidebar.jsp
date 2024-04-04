@@ -17,10 +17,10 @@
 			<li><a href="rapphims"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Rạp
 					phim</a></li>
-			<li><a href="./quanlyphongphim.html"
+			<li><a href="${url}admin/phongphims"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Phòng
 					phim</a></li>
-			<li><a href="./quanlyloaighe.html"
+			<li><a href="${url}admin/loaighes"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Loại
 					ghế</a></li>
 			<li><a href="./quanlyghe.html"
@@ -32,7 +32,7 @@
 			<li><a href="${url}admin/thanhphos"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Quốc
 					gia</a></li>
-			<li><a href="${url}admin/thanhphos"
+			<li><a href="${url}admin/loaitaikhoans"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Loại
 					tài khoản</a></li>
 			<li><a href="${url}admin/thanhphos"
@@ -68,7 +68,7 @@
 			<li><a href="${url}admin/khuyenmais"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Khuyến
 					mãi</a></li>
-			<li><a href="./quanlycombodoan.html"
+			<li><a href="${url}admin/combos"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Thực
 					phẩm / combo</a></li>
 		</ul>

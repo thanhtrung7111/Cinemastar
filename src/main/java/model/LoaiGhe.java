@@ -2,8 +2,11 @@ package model;
 
 import java.util.List;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -13,6 +16,8 @@ import jakarta.persistence.Table;
 public class LoaiGhe {
 	@Id
 	@Column(name = "maLoaiGhe")
+	@GenericGenerator(name = "sequence_loaighe_id",strategy = "helper.LoaiGheGeneratorID")
+	@GeneratedValue(generator = "sequence_loaighe_id")
 	private String maLoaiGhe;
 	
 	@Column(name = "tenLoaiGhe")
@@ -59,6 +64,20 @@ public class LoaiGhe {
 	public void setGhes(List<Ghe> ghes) {
 		this.ghes = ghes;
 	}
+
+	/**
+	 * @param maLoaiGhe
+	 * @param tenLoaiGhe
+	 * @param chiPhi
+	 * @param ghes
+	 */
+	public LoaiGhe(String maLoaiGhe, String tenLoaiGhe, Double chiPhi) {
+		super();
+		this.maLoaiGhe = maLoaiGhe;
+		this.tenLoaiGhe = tenLoaiGhe;
+		this.chiPhi = chiPhi;
+	}
+	
 	
 	
 }

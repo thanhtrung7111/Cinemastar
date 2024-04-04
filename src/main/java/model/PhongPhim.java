@@ -2,8 +2,11 @@ package model;
 
 import java.util.List;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,6 +19,8 @@ public class PhongPhim {
 	
 	@Id
 	@Column(name = "maPhongPhim")
+	@GenericGenerator(name = "sequence_phongphim_id",strategy = "helper.PhongPhimGeneratorID")
+	@GeneratedValue(generator = "sequence_phongphim_id")
 	private String maPhongPhim;
 	
 	@Column(name = "tenPhongPhim")
