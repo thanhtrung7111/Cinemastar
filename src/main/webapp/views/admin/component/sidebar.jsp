@@ -26,6 +26,9 @@
 			<li><a href="./quanlyghe.html"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Ghế</a>
 			</li>
+			<li><a href="./quanlyghe.html"
+				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Hàng ghế</a>
+			</li>
 			<li><a href="${url}admin/thanhphos"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Thành
 					Phố</a></li>

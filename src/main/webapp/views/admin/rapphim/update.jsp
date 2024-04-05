@@ -65,7 +65,7 @@
 		</div>
 
 		<div class="d-block text-end">
-			<a href="./quanlyrapphim.html"
+			<a href="${url}admin/rapphims"
 				class="btn btn-sm bg-danger text-white">Hủy</a>
 			<button formaction="updaterapphim" class="btn btn-sm bg-first text-white">Cập nhật</button>
 		</div>
