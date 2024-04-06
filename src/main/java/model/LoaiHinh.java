@@ -19,7 +19,7 @@ public class LoaiHinh {
 	@Id
 	@Column(name = "maLoaiHinh")
 	@GenericGenerator(name = "sequence_loaihinh_id",strategy = "helper.LoaiHinhGeneratorID")
-	@GeneratedValue(generator = "sequence_loahinh_id")
+	@GeneratedValue(generator = "sequence_loaihinh_id")
 	private String maLoaiHinh;
 	
 	@Column(name = "tenLoaiHinh")

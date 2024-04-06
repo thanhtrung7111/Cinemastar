@@ -4,12 +4,14 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import model.VaiTro;
 import model.Ve;
 import ultis.JpaUltis;
 
-public class VeDAO implements EntityDAO<Ve>{
+public class VeDAO implements EntityDAO<Ve> {
 	private EntityManager entityManager = JpaUltis.getEntityManager();
-	
+
 	@Override
 	protected void finalize() throws Throwable {
 		entityManager.close();
@@ -18,31 +20,68 @@ public class VeDAO implements EntityDAO<Ve>{
 
 	@Override
 	public Ve create(Ve entity) {
-		// TODO Auto-generated method stub
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.persist(entity);
+			entityManager.getTransaction().commit();
+			return entity;
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			System.out.println(e);
+		}
 		return null;
 	}
 
 	@Override
 	public Ve update(Ve entity) {
-		// TODO Auto-generated method stub
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.merge(entity);
+			entityManager.getTransaction().commit();
+			return entity;
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			System.out.println(e);
+		}
 		return null;
 	}
 
 	@Override
 	public boolean delete(String id) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			entityManager.getTransaction().begin();
+			Ve entity = entityManager.find(Ve.class, id);
+			entityManager.remove(entity);
+			entityManager.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public List<Ve> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		String jpql = "SELECT o from Ve o";
+		TypedQuery<Ve> query = entityManager.createQuery(jpql, Ve.class);
+		List<Ve> ves = query.getResultList();
+		return ves;
+	}
+	
+	public String maxIDVe() {
+		String jpql = "SELECT max(t.maVe) from Ve t";
+		TypedQuery<String> query = entityManager.createQuery(jpql, String.class);
+		return query.getSingleResult();
 	}
 
 	@Override
 	public Ve findById(String id) {
-		// TODO Auto-generated method stub
+		try {
+			Ve entity = entityManager.find(Ve.class, id);
+			return entity;
+		} catch (Exception e) {
+
+		}
 		return null;
 	}
 }

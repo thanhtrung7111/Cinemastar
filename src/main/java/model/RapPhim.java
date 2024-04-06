@@ -37,6 +37,9 @@ public class RapPhim {
 
 	@OneToMany(mappedBy = "rapPhim")
 	List<PhongPhim> phongPhims;
+	
+	@OneToMany(mappedBy = "rapPhim")
+	List<NhanVien> nhanViens;
 
 	public RapPhim() {
 
@@ -89,6 +92,14 @@ public class RapPhim {
 
 	public void setPhongPhims(List<PhongPhim> phongPhims) {
 		this.phongPhims = phongPhims;
+	}
+
+	public List<NhanVien> getNhanViens() {
+		return nhanViens;
+	}
+
+	public void setNhanViens(List<NhanVien> nhanViens) {
+		this.nhanViens = nhanViens;
 	}
 
 }

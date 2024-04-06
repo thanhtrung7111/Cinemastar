@@ -4,18 +4,21 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import model.QuocGia;
+import model.ThanhPho;
 import ultis.JpaUltis;
 
 public class QuocGiaDAO implements EntityDAO<QuocGia> {
-	
+
 	private EntityManager entityManager = JpaUltis.getEntityManager();
+
 	@Override
 	protected void finalize() throws Throwable {
 		entityManager.close();
 		super.finalize();
 	}
-	
+
 	@Override
 	public QuocGia create(QuocGia entity) {
 		try {
@@ -25,41 +28,61 @@ public class QuocGiaDAO implements EntityDAO<QuocGia> {
 			return entity;
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
-			throw new RuntimeException(e);
+			System.out.println(e);
 		}
+		return null;
 	}
-	
-	
 
 	@Override
 	public QuocGia update(QuocGia entity) {
-		// TODO Auto-generated method stub
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.merge(entity);
+			entityManager.getTransaction().commit();
+			return entity;
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			System.out.println(e);
+		}
 		return null;
 	}
 
 	@Override
 	public boolean delete(String id) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			entityManager.getTransaction().begin();
+			QuocGia entity = entityManager.find(QuocGia.class, id);
+			entityManager.remove(entity);
+			entityManager.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public List<QuocGia> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		String jpql = "SELECT o from QuocGia o";
+		TypedQuery<QuocGia> query = entityManager.createQuery(jpql, QuocGia.class);
+		List<QuocGia> quocGias = query.getResultList();
+		return quocGias;
 	}
-	
-	public static void main(String[] args) {
-		QuocGiaDAO quocGiaDAO = new QuocGiaDAO();
-		QuocGia qg = new QuocGia();
-		qg.setMaQuocGia("qg00005");
-		qg.setTenQuocGia("Viet Nam");
-		quocGiaDAO.create(qg);
+
+	public String maxIDQuocGia() {
+		String jpql = "SELECT max(t.maQuocGia) from QuocGia t";
+		TypedQuery<String> query = entityManager.createQuery(jpql, String.class);
+		return query.getSingleResult();
 	}
 
 	@Override
 	public QuocGia findById(String id) {
-		// TODO Auto-generated method stub
+		try {
+			QuocGia entity = entityManager.find(QuocGia.class, id);
+			return entity;
+		} catch (Exception e) {
+
+		}
 		return null;
 	}
 }

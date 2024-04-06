@@ -23,28 +23,28 @@
 			<li><a href="${url}admin/loaighes"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Loại
 					ghế</a></li>
-			<li><a href="./quanlyghe.html"
+			<li><a href="${url}admin/ghes"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Ghế</a>
 			</li>
-			<li><a href="./quanlyghe.html"
+			<li><a href="${url}admin/hangghes"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Hàng ghế</a>
 			</li>
 			<li><a href="${url}admin/thanhphos"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Thành
 					Phố</a></li>
-			<li><a href="${url}admin/thanhphos"
+			<li><a href="${url}admin/quocgias"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Quốc
 					gia</a></li>
 			<li><a href="${url}admin/loaitaikhoans"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Loại
 					tài khoản</a></li>
-			<li><a href="${url}admin/thanhphos"
+			<li><a href="${url}admin/loaihinhs"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Loại
 					hình</a></li>
-			<li><a href="${url}admin/thanhphos"
+			<li><a href="${url}admin/loainhanviens"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Loại
 					nhân viên</a></li>
-			<li><a href="${url}admin/thanhphos"
+			<li><a href="${url}admin/vaitros"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Vai trò diễn viên</a></li>
 		</ul>
 	</div>
@@ -61,7 +61,7 @@
 		</div>
 		<ul class="list-unstyled mb-0 item-scroll"
 			style="height: 0; overflow: hidden; transition: height 0.3s ease;">
-			<li><a href="./quanlysuatchieu.html"
+			<li><a href="suatchieus"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Suất
 					chiếu</a></li>
 
@@ -89,10 +89,10 @@
 		</div>
 		<ul class="list-unstyled mb-0 item-scroll"
 			style="height: 0; overflow: hidden; transition: height 0.3s ease;">
-			<li><a href="./quanlyphim.html"
+			<li><a href="${url}admin/phims"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Phim</a>
 			</li>
-			<li><a href="./quanlydienvien.html"
+			<li><a href="${url}admin/dienviens"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Đạo
 					diễn, diễn viên</a></li>
 		</ul>
@@ -112,7 +112,7 @@
 			<li><a href="./quanlytaikhoan.html"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Tài
 					khoản người dùng</a></li>
-			<li><a href="./quanlynhanvien.html"
+			<li><a href="${url}admin/nhanviens"
 				class="px-3 py-1 d-inline-block translate-r-hover text-sm text-decoration-none text-dark ps-5">Tài
 					khoản nhân viên</a></li>
 		</ul>

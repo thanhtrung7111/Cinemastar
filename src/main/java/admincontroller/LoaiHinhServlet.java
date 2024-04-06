@@ -49,7 +49,7 @@ public class LoaiHinhServlet extends HttpServlet {
 		}else if(uri.contains("deleteloaihinh")) {
 			deleteLoaiHinh(req, resp);
 		}
-		
+	
 	}
 
 	private void createLoaiHinh(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -90,7 +90,7 @@ public class LoaiHinhServlet extends HttpServlet {
 
 		} else {
 			LoaiHinh loaiHinh = loaiHinhDAO.findById(req.getParameter("maLoaiHinh"));
-			req.setAttribute("combo", loaiHinh);
+			req.setAttribute("loaiHinh", loaiHinh);
 			req.setAttribute("view", "/views/admin/loaihinh/update.jsp");
 			req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 		}
@@ -99,6 +99,6 @@ public class LoaiHinhServlet extends HttpServlet {
 	private void deleteLoaiHinh(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String id = req.getParameter("maLoaiHinh");
 		loaiHinhDAO.delete(id);
-		resp.sendRedirect("/cinemastar/admin/loaiHinhs");
+		resp.sendRedirect("/cinemastar/admin/loaihinhs");
 	}
 }

@@ -3,8 +3,11 @@ package model;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -18,6 +21,8 @@ import jakarta.persistence.TemporalType;
 public class NhanVien {
 	@Id
 	@Column(name = "maNhanVien")
+	@GenericGenerator(name = "sequence_nhanvien_id",strategy = "helper.NhanVienGeneratorID")
+	@GeneratedValue(generator = "sequence_nhanvien_id")
 	private String maNhanVien;
 	
 	@Column(name="tenNhanVien")
@@ -42,6 +47,10 @@ public class NhanVien {
 	
 	@OneToMany(mappedBy = "nhanVien")
 	List<HoaDon> hoaDons;
+	
+	@ManyToOne
+	@JoinColumn(name = "maRapPhim")
+	RapPhim rapPhim;
 
 	public NhanVien() {
 		
@@ -109,6 +118,14 @@ public class NhanVien {
 
 	public void setHoaDons(List<HoaDon> hoaDons) {
 		this.hoaDons = hoaDons;
+	}
+
+	public RapPhim getRapPhim() {
+		return rapPhim;
+	}
+
+	public void setRapPhim(RapPhim rapPhim) {
+		this.rapPhim = rapPhim;
 	}
 	
 	

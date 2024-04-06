@@ -23,8 +23,8 @@
 			<div class="col-6">
 				<div>
 					<label class="form-label text-sm text-dark fw-bolder mb-1">Tên
-						loại hình</label> <input type="email" class="form-control form-control-sm"
-						id="exampleFormControlInput1" placeholder="Nhập tên phòng phim" />
+						loại hình</label> <input type="text" class="form-control form-control-sm"
+						name="tenLoaiHinh" placeholder="Nhập tên loại hình" />
 				</div>
 			</div>
 		</div>

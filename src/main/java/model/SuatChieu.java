@@ -3,8 +3,11 @@ package model;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -18,6 +21,8 @@ import jakarta.persistence.TemporalType;
 public class SuatChieu {
 	@Id
 	@Column(name = "maSuatChieu")
+	@GenericGenerator(name = "sequence_suatchieu_id",strategy = "helper.SuatChieuGeneratorID")
+	@GeneratedValue(generator = "sequence_suatchieu_id")
 	private String maSuatChieu;
 	
 	@Column(name = "thoiGianChieu")

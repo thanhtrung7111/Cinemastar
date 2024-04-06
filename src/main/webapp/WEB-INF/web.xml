@@ -19,14 +19,4 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <description></description>
-    <display-name>LoaiHinhServlet</display-name>
-    <servlet-name>LoaiHinhServlet</servlet-name>
-    <servlet-class>admincontroller.LoaiHinhServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LoaiHinhServlet</servlet-name>
-    <url-pattern>/LoaiHinhServlet</url-pattern>
-  </servlet-mapping>
 </web-app>

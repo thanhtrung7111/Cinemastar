@@ -1,13 +1,20 @@
 const scrolls = document.querySelectorAll(".scroll");
 
 scrolls.forEach((item) =>
-  item.addEventListener("click", function () {
-    console.log("Hello");
-    const element = item.getElementsByClassName("item-scroll")[0];
-    if (element.style.height != "0px") {
-      element.style.height = 0 + "px";
-    } else {
-      element.style.height = element.scrollHeight + "px";
-    }
-  })
+	item.addEventListener("click", function() {
+		console.log("Hello");
+		const element = item.getElementsByClassName("item-scroll")[0];
+		if (element.style.height != "0px") {
+			element.style.height = 0 + "px";
+		} else {
+			element.style.height = element.scrollHeight + "px";
+		}
+	})
 );
+var loadFile = function(event) {
+	var output = document.getElementById('output');
+	output.src = URL.createObjectURL(event.target.files[0]);
+	output.onload = function() {
+		URL.revokeObjectURL(output.src) // free memory
+	}
+};

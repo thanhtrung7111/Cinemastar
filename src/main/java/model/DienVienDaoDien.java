@@ -3,10 +3,12 @@ package model;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ManyToAny;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,6 +22,8 @@ import jakarta.persistence.TemporalType;
 public class DienVienDaoDien {
 	@Id
 	@Column(name = "maDV_DD")
+	@GenericGenerator(name = "sequence_dienvien_id",strategy = "helper.DienVienDaoDienGeneratorID")
+	@GeneratedValue(generator = "sequence_dienvien_id")
 	private String maDV_DD;
 
 	@Column(name = "tenDV_DD")
@@ -35,6 +39,9 @@ public class DienVienDaoDien {
 	@Column(name = "chieuCao")
 	private Integer ChieuCao;
 	
+	@Column(name = "hinhAnh")
+	private String hinhAnh;
+	
 	@JoinColumn(name = "maVaiTro")
 	@ManyToOne
 	VaiTro vaiTro;
@@ -43,6 +50,18 @@ public class DienVienDaoDien {
 	@ManyToOne
 	QuocGia quocGia;
 	
+	@OneToMany(mappedBy = "dienVienDaoDien")
+	private List<ThamGia> thamGia;
+	
+
+	public List<ThamGia> getThamGia() {
+		return thamGia;
+	}
+
+	public void setThamGia(List<ThamGia> thamGia) {
+		this.thamGia = thamGia;
+	}
+
 	@OneToMany(mappedBy ="dienVienDaoDien")
 	private List<HinhDienVien_DaoDien> hinhDienVien_DaoDiens;
 
@@ -113,6 +132,15 @@ public class DienVienDaoDien {
 	public void setHinhDienVien_DaoDiens(List<HinhDienVien_DaoDien> hinhDienVien_DaoDiens) {
 		this.hinhDienVien_DaoDiens = hinhDienVien_DaoDiens;
 	}
+
+	public String getHinhAnh() {
+		return hinhAnh;
+	}
+
+	public void setHinhAnh(String hinhAnh) {
+		this.hinhAnh = hinhAnh;
+	}
+	
 	
 	
 }

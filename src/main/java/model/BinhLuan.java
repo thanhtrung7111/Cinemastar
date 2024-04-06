@@ -20,6 +20,9 @@ public class BinhLuan {
 	@Id
 	private String noiDung;
 	
+	@Column(name="like")
+	private Boolean like;
+	
 	@ManyToOne
 	@JoinColumn(name = "maTaiKhoan")
 	private TaiKhoan taiKhoan;
