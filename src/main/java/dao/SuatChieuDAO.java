@@ -67,6 +67,13 @@ public class SuatChieuDAO implements EntityDAO<SuatChieu> {
 		List<SuatChieu> suatChieus = query.getResultList();
 		return suatChieus;
 	}
+	
+	public List<SuatChieu> selectAllOnDay() {
+		String jpql = "SELECT o from SuatChieu o where o.ngayChieu = CURRENT_DATE";
+		TypedQuery<SuatChieu> query = entityManager.createQuery(jpql, SuatChieu.class);
+		List<SuatChieu> suatChieus = query.getResultList();
+		return suatChieus;
+	}
 
 	public String maxIDSuatChieu() {
 		String jpql = "SELECT max(t.maSuatChieu) from SuatChieu t";

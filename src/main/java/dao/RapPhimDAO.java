@@ -68,6 +68,22 @@ public class RapPhimDAO implements EntityDAO<RapPhim> {
 		return rapPhims;
 	}
 
+	public List<RapPhim> selectAllByCity(String maThanhPho) {
+		String jpql = "SELECT o from RapPhim o where o.thanhPho.maThanhPho = :thanhPho";
+		TypedQuery<RapPhim> query = entityManager.createQuery(jpql, RapPhim.class);
+		query.setParameter("thanhPho", maThanhPho);
+		List<RapPhim> rapPhims = query.getResultList();
+		return rapPhims;
+	}
+
+	public List<RapPhim> selectAllByCityAndName(String maThanhPho, String name) {
+		String jpql = "SELECT o from RapPhim o where o.thanhPho.maThanhPho = :thanhPho and o.tenRapPhim = :name";
+		TypedQuery<RapPhim> query = entityManager.createQuery(jpql, RapPhim.class);
+		query.setParameter("thanhPho", maThanhPho);
+		List<RapPhim> rapPhims = query.getResultList();
+		return rapPhims;
+	}
+
 	public String maxIDRapPhim() {
 		String jpql = "SELECT max(t.maRapPhim) from RapPhim t";
 		TypedQuery<String> query = entityManager.createQuery(jpql, String.class);

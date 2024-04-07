@@ -47,6 +47,9 @@ public class Phim {
 
 	@Column(name = "trailer")
 	private String trailer;
+	
+	@Column(name="luotXem")
+	private Integer luotXem;
 
 	@ManyToOne
 	@JoinColumn(name = "maQuocGia")
@@ -178,6 +181,14 @@ public class Phim {
 
 	public void setTrailer(String trailer) {
 		this.trailer = trailer;
+	}
+
+	public Integer getLuotXem() {
+		return luotXem;
+	}
+
+	public void setLuotXem(Integer luotXem) {
+		this.luotXem = luotXem;
 	}
 
 }

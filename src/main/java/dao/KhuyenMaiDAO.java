@@ -68,6 +68,22 @@ public class KhuyenMaiDAO implements EntityDAO<KhuyenMai> {
 		return khuyenMais;
 	}
 	
+	public List<KhuyenMai> selectAllByDate() {
+		String jpql = "SELECT o from KhuyenMai o where o.ngayApDung <= CURRENT_DATE and o.ngayKetThuc >= CURRENT_DATE";
+		TypedQuery<KhuyenMai> query = entityManager.createQuery(jpql, KhuyenMai.class);
+		List<KhuyenMai> khuyenMais = query.getResultList();
+		return khuyenMais;
+	}
+	
+	public List<KhuyenMai> selectAllByDate(int begin, int max) {
+		String jpql = "SELECT o from KhuyenMai o where o.ngayApDung <= CURRENT_DATE and o.ngayKetThuc >= CURRENT_DATE";
+		TypedQuery<KhuyenMai> query = entityManager.createQuery(jpql, KhuyenMai.class);
+		query.setFirstResult(begin);
+		query.setMaxResults(max);
+		List<KhuyenMai> khuyenMais = query.getResultList();
+		return khuyenMais;
+	}
+	
 	public String maxIDKhuyenMai() {
 		String jpql = "SELECT max(t.maKhuyenMai) from KhuyenMai t";
 		TypedQuery<String> query = entityManager.createQuery(jpql, String.class);

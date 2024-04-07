@@ -42,6 +42,9 @@ public class DienVienDaoDien {
 	@Column(name = "hinhAnh")
 	private String hinhAnh;
 	
+	@Column(name = "luotXem")
+	private Integer luotXem =1;
+	
 	@JoinColumn(name = "maVaiTro")
 	@ManyToOne
 	VaiTro vaiTro;
@@ -139,6 +142,14 @@ public class DienVienDaoDien {
 
 	public void setHinhAnh(String hinhAnh) {
 		this.hinhAnh = hinhAnh;
+	}
+
+	public Integer getLuotXem() {
+		return luotXem;
+	}
+
+	public void setLuotXem(Integer luotXem) {
+		this.luotXem = luotXem;
 	}
 	
 	

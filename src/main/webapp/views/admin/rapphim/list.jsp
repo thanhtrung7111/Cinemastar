@@ -21,6 +21,18 @@
 				</a>
 			</div>
 		</div>
+		<form method="post">
+			<select class="form-select form-select-sm"
+				aria-label="Small select example" name="maThanhPho">
+				<option value="">Tất cả</option>
+				<c:forEach var="thanhPho" items="${thanhPhos}" varStatus="loop">
+					<option ${loop.index == 0 ? 'selected="selected"' : ''}
+						value="${thanhPho.maThanhPho}">${thanhPho.tenThanhPho}</option>
+				</c:forEach>
+			</select>
+			<button formaction="rapphims" class="btn btn-primary">Tìm
+				kiếm</button>
+		</form>
 		<table class="table">
 			<thead>
 				<tr>

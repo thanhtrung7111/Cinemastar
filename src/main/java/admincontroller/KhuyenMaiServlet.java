@@ -1,15 +1,19 @@
 package admincontroller;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import model.KhuyenMai;
 import model.ThanhPho;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
 
@@ -25,6 +29,7 @@ import dao.ThanhPhoDAO;
  * Servlet implementation class KhuyenMaiServlet
  */
 @WebServlet({ "/admin/khuyenmais", "/admin/createkhuyenmai", "/admin/updatekhuyenmai", "/admin/deletekhuyenmai" })
+@MultipartConfig
 public class KhuyenMaiServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private KhuyenMaiDAO khuyenMaiDAO;
@@ -53,20 +58,27 @@ public class KhuyenMaiServlet extends HttpServlet {
 		} else if (uri.contains("deletekhuyenmai")) {
 			deleteKhuyenMai(req, resp);
 		}
-	
+
 	}
 
 	private void createKhuyenMai(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
-				KhuyenMai thanhPho = new KhuyenMai();
+				KhuyenMai khuyenMai = new KhuyenMai();
+				Part part = req.getPart("image");
+				String realPath = req.getServletContext().getRealPath("/images");
+				String filename = Path.of(part.getSubmittedFileName()).getFileName().toString();
+				if (!Files.exists(Path.of(realPath))) {
+					Files.createDirectory(Path.of(realPath));
+				}
+				part.write(realPath + "/" + filename);
 				DateTimeConverter dtc = new DateConverter(new Date());
 				dtc.setPattern("MM/dd/yyyy");
 				ConvertUtils.register(dtc, Date.class);
-				BeanUtils.populate(thanhPho, req.getParameterMap());
-				khuyenMaiDAO.create(thanhPho);
-
+				BeanUtils.populate(khuyenMai, req.getParameterMap());
+				khuyenMai.setHinhAnh(filename);
+				khuyenMaiDAO.create(khuyenMai);
 				resp.sendRedirect("/cinemastar/admin/khuyenmais");
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
@@ -87,10 +99,26 @@ public class KhuyenMaiServlet extends HttpServlet {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
 				KhuyenMai khuyenMai = new KhuyenMai();
+				Part part = req.getPart("image");
+				String realPath = "";
+				String filename = "";
+				System.out.println(part.getSubmittedFileName().isBlank());
+				if (!part.getSubmittedFileName().isBlank()) {
+					realPath = req.getServletContext().getRealPath("/images");
+					filename = Path.of(part.getSubmittedFileName()).getFileName().toString();
+					if (!Files.exists(Path.of(realPath))) {
+						Files.createDirectory(Path.of(realPath));
+					}
+					System.out.println(realPath);
+					part.write(realPath + "/" + filename);
+				}
 				DateTimeConverter dtc = new DateConverter(new Date());
 				dtc.setPattern("MM/dd/yyyy");
 				ConvertUtils.register(dtc, Date.class);
 				BeanUtils.populate(khuyenMai, req.getParameterMap());
+				if (part.getSubmittedFileName().isBlank() == false) {
+					khuyenMai.setHinhAnh(filename);
+				}
 				khuyenMaiDAO.update(khuyenMai);
 				resp.sendRedirect("/cinemastar/admin/khuyenmais");
 			} catch (IllegalAccessException e) {

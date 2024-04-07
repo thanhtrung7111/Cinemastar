@@ -11,40 +11,47 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "KhuyenMai")
 public class KhuyenMai {
 
 	@Id
-	@GenericGenerator(name = "sequence_khuyenmai_id",strategy = "helper.KhuyenMaiGeneratorID")
+	@GenericGenerator(name = "sequence_khuyenmai_id", strategy = "helper.KhuyenMaiGeneratorID")
 	@GeneratedValue(generator = "sequence_khuyenmai_id")
 	@Column(name = "maKhuyenMai")
 	private String maKhuyenMai;
-	
+
 	@Column(name = "tenKhuyenMai")
 	private String tenKhuyenMai;
-	
+
 	@Column(name = "phanTramGiam")
 	private Integer phanTramGiam;
-	
+
 	@Column(name = "soTienGiamTrucTiep")
 	private Double soTienGiamTrucTiep;
-	
+
+	@Temporal(TemporalType.DATE)
 	@Column(name = "ngayApDung")
 	private Date ngayApDung;
-	
+
+	@Temporal(TemporalType.DATE)
 	@Column(name = "ngayKetThuc")
 	private Date ngayKetThuc;
-	
+
+	@Column(name = "hinhAnh")
+	private String hinhAnh;
+
 	@OneToMany(mappedBy = "khuyenMai")
 	private List<ApDungTaiKhoan> apDungTaiKhoans;
-	
+
 	@OneToMany(mappedBy = "khuyenMai")
 	private List<ApDungKhuyenMai> apDungKhuyenMais;
 
 	public KhuyenMai() {
-		
+
 	}
 
 	public String getMaKhuyenMai() {
@@ -110,6 +117,13 @@ public class KhuyenMai {
 	public void setApDungKhuyenMais(List<ApDungKhuyenMai> apDungKhuyenMais) {
 		this.apDungKhuyenMais = apDungKhuyenMais;
 	}
-	
-	
+
+	public String getHinhAnh() {
+		return hinhAnh;
+	}
+
+	public void setHinhAnh(String hinhAnh) {
+		this.hinhAnh = hinhAnh;
+	}
+
 }

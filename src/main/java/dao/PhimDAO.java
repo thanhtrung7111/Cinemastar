@@ -9,8 +9,9 @@ import model.Phim;
 import model.ThanhPho;
 import ultis.JpaUltis;
 
-public class PhimDAO implements EntityDAO<Phim>{
+public class PhimDAO implements EntityDAO<Phim> {
 	private EntityManager entityManager = JpaUltis.getEntityManager();
+
 	@Override
 	protected void finalize() throws Throwable {
 		entityManager.close();
@@ -66,13 +67,37 @@ public class PhimDAO implements EntityDAO<Phim>{
 		List<Phim> phims = query.getResultList();
 		return phims;
 	}
-	
+
+	public List<Phim> selectAllOnDay() {
+		String jpql = "SELECT distinct o.phim from SuatChieu o where o.ngayChieu = CURRENT_DATE";
+		TypedQuery<Phim> query = entityManager.createQuery(jpql, Phim.class);
+		List<Phim> phims = query.getResultList();
+		return phims;
+	}
+
+	public List<Phim> selectAllOnDay(int begin, int maxResult) {
+		String jpql = "SELECT distinct o.phim from SuatChieu o where o.ngayChieu = CURRENT_DATE";
+		TypedQuery<Phim> query = entityManager.createQuery(jpql, Phim.class);
+		query.setFirstResult(begin);
+		query.setMaxResults(maxResult);
+		List<Phim> phims = query.getResultList();
+		return phims;
+	}
+
+	public List<Phim> selectAllByDienVien(String maDienVien) {
+		String jpql = "SELECT distinct o.phim from ThamGia o where o.dienVienDaoDien.maDV_DD = :maDienVien";
+		TypedQuery<Phim> query = entityManager.createQuery(jpql, Phim.class);
+		query.setParameter("maDienVien", maDienVien);
+
+		List<Phim> phims = query.getResultList();
+		return phims;
+	}
+
 	public String maxIDPhim() {
 		String jpql = "SELECT max(t.maPhim) from Phim t";
 		TypedQuery<String> query = entityManager.createQuery(jpql, String.class);
 		return query.getSingleResult();
 	}
-
 
 	@Override
 	public Phim findById(String id) {

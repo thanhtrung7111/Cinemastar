@@ -5,7 +5,8 @@
 <div class="py-2 px-3">
 	<h5 class="text-dark fs-6 my-3">Trang chủ / Quản lý khuyến mãi /
 		Thêm mới</h5>
-	<form class="rounded-3 overflow-hidden shadow-sm bg-white px-4 py-3" method="post">
+	<form class="rounded-3 overflow-hidden shadow-sm bg-white px-4 py-3" enctype="multipart/form-data"
+		method="post">
 		<!-- <div class="d-flex justify-content-between"> -->
 		<h5 class="mb-4">Thêm khuyến mãi mới</h5>
 		<!-- <div>
@@ -20,44 +21,39 @@
 		<!-- </div> -->
 		<div class="row g-3 mb-3">
 			<div class="col-6">
+				<input type="file" name="image" id="image"
+					onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"
+					hidden> <label style="width: 100%" for="image"> <img
+					id="output" src="/cinemastar/images/${dienVien.hinhAnh}" alt=""
+					style="height: 600px; width: 100%; object-fit: cover; object-position: top" />
+				</label> <input type="text" value="${dienVien.hinhAnh}" name="hinhAnh"
+					hidden>
+			</div>
+			<div class="col-6">
 				<div>
 					<label class="form-label text-sm text-dark fw-bolder mb-1">Tên
 						khuyến mãi</label> <input type="text" name="tenKhuyenMai"
 						class="form-control form-control-sm" id="exampleFormControlInput1"
 						placeholder="Nhập tên khuyến mãi" />
 				</div>
-			</div>
-			<div class="col-6">
 				<div>
 					<label class="form-label text-sm text-dark fw-bolder mb-1">Phần
 						trăm giảm</label> <input type="number" name="phanTramGiam"
 						class="form-control form-control-sm" id="exampleFormControlInput1"
 						min="0" />
 				</div>
-			</div>
-			<div class="col-6">
 				<div>
 					<label class="form-label text-sm text-dark fw-bolder">Giảm
 						trực tiếp</label> <input type="number" name="soTienGiamTrucTiep"
 						class="form-control form-control-sm" id="exampleFormControlInput1"
 						placeholder="Nhập số tiền giảm trực tiếp" />
 				</div>
-			</div>
-			<div class="col-6">
 				<div>
 					<label class="form-label text-sm text-dark fw-bolder">Ngày
 						bắt đầu</label> <input type="date" name="ngayApDung"
 						class="form-control form-control-sm" />
 				</div>
 			</div>
-			<div class="col-6">
-				<div>
-					<label class="form-label text-sm text-dark fw-bolder">Ngày
-						kết thúc</label> <input type="date" name="ngayKetThuc"
-						class="form-control form-control-sm" />
-				</div>
-			</div>
-
 		</div>
 
 		<div class="d-block text-end">

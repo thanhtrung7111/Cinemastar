@@ -40,10 +40,7 @@ public class RapPhimServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String uri = req.getRequestURI();
 		if (uri.contains("rapphims")) {
-			List<RapPhim> rapPhims = rapPhimDAO.selectAll();
-			req.setAttribute("rapPhims", rapPhims);
-			req.setAttribute("view", "/views/admin/rapphim/list.jsp");
-			req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
+			listRapPhim(req, resp);
 		} else if (uri.contains("createrapphim")) {
 			createRapPhim(req, resp);
 		} else if (uri.contains("updaterapphim")) {
@@ -52,6 +49,26 @@ public class RapPhimServlet extends HttpServlet {
 			deleteRapPhim(req, resp);
 		}
 
+	}
+
+	private void listRapPhim(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		if (req.getMethod().equalsIgnoreCase("post")) {
+			String maThanhPho = req.getParameter("maThanhPho");
+			List<RapPhim> rapPhims = null;
+			if (maThanhPho != "") {
+				rapPhims = rapPhimDAO.selectAllByCity(maThanhPho);
+			} else {
+				rapPhims = rapPhimDAO.selectAll();
+			}
+			req.setAttribute("rapPhims", rapPhims);
+		} else {
+			List<ThanhPho> thanhPhos = thanhPhoDAO.selectAll();
+			List<RapPhim> rapPhims = rapPhimDAO.selectAll();
+			req.setAttribute("rapPhims", rapPhims);
+			req.setAttribute("thanhPhos", thanhPhos);
+		}
+		req.setAttribute("view", "/views/admin/rapphim/list.jsp");
+		req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 	}
 
 	private void createRapPhim(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

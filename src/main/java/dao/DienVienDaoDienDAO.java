@@ -77,6 +77,8 @@ public class DienVienDaoDienDAO implements EntityDAO<DienVienDaoDien> {
 		List<DienVienDaoDien> dienVienDaoDiens = query.getResultList();
 		return dienVienDaoDiens;
 	}
+	
+	
 
 	public String maxIDDienVien() {
 		String jpql = "SELECT max(t.maDV_DD) from DienVienDaoDien t";
