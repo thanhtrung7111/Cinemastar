@@ -6,7 +6,7 @@
 <c:url var="url" value="/"></c:url>
 <div class="modal fade" id="modalLogin" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog">
-		<div class="modal-content pb-5 px-4">
+		<form class="modal-content pb-5 px-4" action="method">
 			<div class="modal-header border-0">
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
@@ -16,13 +16,13 @@
 			<div class="px-3">
 				<div class="mb-3">
 					<label class="form-label fw-bold text-sm mb-1">Email hoặc
-						số điện thoại</label> <input type="email"
+						số điện thoại</label> <input type="text" name="tenDangNhap"
 						class="form-control text-sm focus-ring focus-ring-info"
 						placeholder="Nhập email hoặc số điện thoại  " />
 				</div>
 				<div class="mb-1">
 					<label class="form-label fw-bold text-sm mb-1">Mật khẩu</label> <input
-						type="email"
+						type="password" name="matKhau"
 						class="form-control text-sm focus-ring focus-ring-info"
 						placeholder="Nhập mật khẩu" />
 				</div>
@@ -37,7 +37,13 @@
 							data-bs-target="#modalRegister">Đăng ký</span>
 					</div>
 				</div>
-				<button class="border-0 text-white bg-first text-sm w-100 py-2">
+				<c:if test="${sessionScope.errorlogin != null}">
+					<div>
+						<span class="text-danger" style="font-size: 12px">${sessionScope.errorlogin}</span>
+					</div>
+				</c:if>
+				<button formaction="${url}login"
+					class="border-0 text-white bg-first text-sm w-100 py-2">
 					Đăng nhập</button>
 				<div
 					class="d-flex align-items-center justify-content-center column-gap-1 my-2">
@@ -55,7 +61,7 @@
 						style="height: 30px; width: 30px" />
 				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 </div>
 <!-- Modal đăng kí-->
@@ -598,10 +604,10 @@
 				<ul
 					class="position-absolute menu-list top-100 start-0 bg-white list-unstyled text-dark rounded-1 border border-1 overflow-hidden"
 					style="width: 250px">
-					<li><a href="./uudai.html"
+					<li><a href="${url}uudais"
 						class="menu-list-item text-decoration-none text-dark">Ưu đãi
 							tháng</a></li>
-					<li><a href="./uudai.html"
+					<li><a href="${url}uudais"
 						class="menu-list-item text-decoration-none text-dark">Khuyến
 							mãi tháng</a></li>
 				</ul>
@@ -616,9 +622,28 @@
 					style="cursor: pointer"><i class="ri-search-line"></i></span>
 			</div>
 
-			<button class="bg-transparent border-0 text-sm text-dark"
-				data-bs-toggle="modal" data-bs-target="#modalLogin">Đăng
-				nhập</button>
+			<c:if test="${sessionScope.user == null}">
+				<button class="bg-transparent border-0 text-sm text-dark"
+					data-bs-toggle="modal" data-bs-target="#modalLogin">Đăng
+					nhập</button>
+			</c:if>
+
+			<c:if test="${sessionScope.user != null}">
+				<div class="position-relative menu-item">
+					<button class="bg-transparent border-0 text-sm text-dark">
+						${sessionScope.user.tenTaiKhoan}</button>
+					<div
+						class="position-absolute d-flex flex-column bg-white shadow-lg menu-list"
+						style="width: 200px; z-index: 100; right: 0px; top: 100%">
+						<a href=""
+							class="text-decoration-none text-dark text-sm block px-3 py-2 info-item">Trang
+							cá nhân</a> <a href="${url}logout"
+							class="text-decoration-none text-dark text-sm text-sm block px-3 py-2 info-item">Đăng
+							xuất</a>
+					</div>
+				</div>
+			</c:if>
+
 		</div>
 	</div>
 </header>

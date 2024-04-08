@@ -157,6 +157,7 @@ public class PhimServlet extends HttpServlet {
 					phim.setHinhAnh(filename);
 				}
 				phimDAO.update(phim);
+				
 				resp.sendRedirect("/cinemastar/admin/phims");
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
@@ -167,10 +168,14 @@ public class PhimServlet extends HttpServlet {
 			}
 
 		} else {
+			List<DienVienDaoDien> dienViens = dienVienDaoDienDAO.selectAllByRole("Diễn Viên");
+			List<DienVienDaoDien> daoDiens = dienVienDaoDienDAO.selectAllByRole("Đạo Diễn");
 			Phim phim = phimDAO.findById(req.getParameter("maPhim"));
 			List<QuocGia> quocGias = quocGiaDAO.selectAll();
 			req.setAttribute("quocGias", quocGias);
 			req.setAttribute("phim", phim);
+			req.setAttribute("dienViens", dienViens);
+			req.setAttribute("daoDiens", daoDiens);
 			req.setAttribute("view", "/views/admin/phim/update.jsp");
 			req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 		}

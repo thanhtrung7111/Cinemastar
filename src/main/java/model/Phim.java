@@ -47,9 +47,9 @@ public class Phim {
 
 	@Column(name = "trailer")
 	private String trailer;
-	
-	@Column(name="luotXem")
-	private Integer luotXem;
+
+	@Column(name = "luotXem")
+	private Integer luotXem = 0;
 
 	@ManyToOne
 	@JoinColumn(name = "maQuocGia")

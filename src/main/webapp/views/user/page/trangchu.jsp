@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<c:url var="url" value="/"></c:url>
 <!-- banner  -->
 <div class="position-relative">
 	<div id="carouselExampleInterval" class="carousel slide"
@@ -102,7 +102,7 @@
 						<div
 							class="product-overlay position-absolute top-0 start-0 bg-black bg-opacity-50 d-flex align-items-center justify-content-center flex-column row-gap-2"
 							style="width: 100%; height: 100%">
-							<a href="./muave.html" class="btn btn-warning text-sm"> <i
+							<a href="${url}user/chonsuat?maPhim=${phim.maPhim}" class="btn btn-warning text-sm"> <i
 								class="ri-coupon-3-line"></i> Mua vé
 							</a> <a href="./chitietphimdangchieu.html"
 								class="btn btn-outline-info text-sm"> <i

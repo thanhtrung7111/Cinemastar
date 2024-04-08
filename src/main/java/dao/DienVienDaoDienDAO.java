@@ -69,6 +69,14 @@ public class DienVienDaoDienDAO implements EntityDAO<DienVienDaoDien> {
 		return dienVienDaoDiens;
 	}
 	
+	public List<DienVienDaoDien> selectAllByPhim(String maPhim) {
+		String jpql = "SELECT o.dienVienDaoDien from ThamGia o where o.phim.maPhim = :maPhim";
+		TypedQuery<DienVienDaoDien> query = entityManager.createQuery(jpql, DienVienDaoDien.class);
+		query.setParameter("maPhim", maPhim);
+		List<DienVienDaoDien> dienVienDaoDiens = query.getResultList();
+		return dienVienDaoDiens;
+	}
+	
 
 	public List<DienVienDaoDien> selectAllByRole(String name) {
 		String jpql = "SELECT o from DienVienDaoDien o where o.vaiTro.tenVaiTro = :name";

@@ -83,12 +83,14 @@ public class SuatChieuServlet extends HttpServlet {
 				suatChieu.setPhim(phim);
 				suatChieuDAO.create(suatChieu);
 				SuatChieu suatChieuFind = suatChieuDAO.findById(suatChieuDAO.maxIDSuatChieu());
-				for(Ghe ghe : phongPhim.getGhes()) {
-					Ve ve = new Ve();
-					ve.setGhe(ghe);
-					ve.setSuatChieu(suatChieuFind);
-					ve.setTongTien(ghe.getLoaiGhe().getChiPhi());
-					veDAO.create(ve);
+				if (suatChieuFind != null) {
+					for (Ghe ghe : phongPhim.getGhes()) {
+						Ve ve = new Ve();
+						ve.setGhe(ghe);
+						ve.setSuatChieu(suatChieuFind);
+						ve.setTongTien(ghe.getLoaiGhe().getChiPhi());
+						veDAO.create(ve);
+					}
 				}
 				resp.sendRedirect("/cinemastar/admin/suatchieus");
 			} catch (IllegalAccessException e) {

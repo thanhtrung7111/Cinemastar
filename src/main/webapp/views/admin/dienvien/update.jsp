@@ -33,7 +33,7 @@
 			</div>
 			<div class="col-8">
 				<div class="d-flex flex-column row-gap-2">
-					<input type="text" value="${dienVienDaoDien.maDV_DD}" name="maDV_DD">
+					<input type="text" value="${dienVienDaoDien.maDV_DD}" name="maDV_DD" hidden>
 					<div>
 						<label class="form-label text-sm text-dark fw-bolder mb-1">Tên
 							diễn viên đạo diễn</label> <input type="text"

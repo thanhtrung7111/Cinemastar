@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -65,6 +66,7 @@ public class KhuyenMaiServlet extends HttpServlet {
 			throws IOException, ServletException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
+				System.out.println(req.getParameter("ngayApDung"));
 				KhuyenMai khuyenMai = new KhuyenMai();
 				Part part = req.getPart("image");
 				String realPath = req.getServletContext().getRealPath("/images");
@@ -73,10 +75,12 @@ public class KhuyenMaiServlet extends HttpServlet {
 					Files.createDirectory(Path.of(realPath));
 				}
 				part.write(realPath + "/" + filename);
-				DateTimeConverter dtc = new DateConverter(new Date());
-				dtc.setPattern("MM/dd/yyyy");
+				DateTimeConverter dtc = new DateConverter(null);
+				dtc.setPattern("yyyy-MM-dd");
 				ConvertUtils.register(dtc, Date.class);
 				BeanUtils.populate(khuyenMai, req.getParameterMap());
+				BeanUtils.setProperty(khuyenMai, "ngayApDung", req.getParameter("ngayApDung"));
+				BeanUtils.setProperty(khuyenMai, "ngayKetThuc", req.getParameter("ngayKetThuc"));
 				khuyenMai.setHinhAnh(filename);
 				khuyenMaiDAO.create(khuyenMai);
 				resp.sendRedirect("/cinemastar/admin/khuyenmais");
@@ -112,10 +116,12 @@ public class KhuyenMaiServlet extends HttpServlet {
 					System.out.println(realPath);
 					part.write(realPath + "/" + filename);
 				}
-				DateTimeConverter dtc = new DateConverter(new Date());
-				dtc.setPattern("MM/dd/yyyy");
+				DateTimeConverter dtc = new DateConverter(null);
+				dtc.setPattern("yyyy-MM-dd");
 				ConvertUtils.register(dtc, Date.class);
 				BeanUtils.populate(khuyenMai, req.getParameterMap());
+				BeanUtils.setProperty(khuyenMai, "ngayApDung", req.getParameter("ngayApDung"));
+				BeanUtils.setProperty(khuyenMai, "ngayKetThuc", req.getParameter("ngayKetThuc"));
 				if (part.getSubmittedFileName().isBlank() == false) {
 					khuyenMai.setHinhAnh(filename);
 				}

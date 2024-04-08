@@ -5,8 +5,8 @@
 <div class="py-2 px-3">
 	<h5 class="text-dark fs-6 my-3">Trang chủ / Quản lý khuyến mãi /
 		Thêm mới</h5>
-	<form class="rounded-3 overflow-hidden shadow-sm bg-white px-4 py-3" enctype="multipart/form-data"
-		method="post">
+	<form class="rounded-3 overflow-hidden shadow-sm bg-white px-4 py-3"
+		enctype="multipart/form-data" method="post">
 		<!-- <div class="d-flex justify-content-between"> -->
 		<h5 class="mb-4">Thêm khuyến mãi mới</h5>
 		<!-- <div>
@@ -51,6 +51,11 @@
 				<div>
 					<label class="form-label text-sm text-dark fw-bolder">Ngày
 						bắt đầu</label> <input type="date" name="ngayApDung"
+						class="form-control form-control-sm" />
+				</div>
+				<div>
+					<label class="form-label text-sm text-dark fw-bolder">Ngày
+						kết thúc</label> <input type="date" name="ngayKetThuc"
 						class="form-control form-control-sm" />
 				</div>
 			</div>

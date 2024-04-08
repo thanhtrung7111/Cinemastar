@@ -78,8 +78,8 @@ public class DienVienDaoDienServlet extends HttpServlet {
 	private void createDienVien(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
-				DateTimeConverter dtc = new DateConverter(new Date());
-				dtc.setPattern("MM/dd/yyyy");
+				DateTimeConverter dtc = new DateConverter(null);
+				dtc.setPattern("yyyy-MM-dd");
 				ConvertUtils.register(dtc, Date.class);
 				DienVienDaoDien dienVienDaoDien = new DienVienDaoDien();
 				Part part = req.getPart("image");
@@ -93,6 +93,7 @@ public class DienVienDaoDienServlet extends HttpServlet {
 				QuocGia quocGia = quocGiaDAO.findById(req.getParameter("maQuocGia"));
 				VaiTro vaiTro = vaiTroDAO.findById(req.getParameter("maVaiTro"));
 				BeanUtils.populate(dienVienDaoDien, req.getParameterMap());
+				BeanUtils.setProperty(dienVienDaoDien, "ngaySinh", req.getParameter("ngaySinh"));
 				dienVienDaoDien.setQuocGia(quocGia);
 				dienVienDaoDien.setVaiTro(vaiTro);
 				dienVienDaoDien.setHinhAnh(filename);
@@ -119,8 +120,8 @@ public class DienVienDaoDienServlet extends HttpServlet {
 	private void updateDienVien(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
-				DateTimeConverter dtc = new DateConverter(new Date());
-				dtc.setPattern("MM/dd/yyyy");
+				DateTimeConverter dtc = new DateConverter(null);
+				dtc.setPattern("yyyy-MM-dd");
 				ConvertUtils.register(dtc, Date.class);
 				DienVienDaoDien dienVienDaoDien = new DienVienDaoDien();
 				Part part = req.getPart("image");
@@ -140,6 +141,7 @@ public class DienVienDaoDienServlet extends HttpServlet {
 				QuocGia quocGia = quocGiaDAO.findById(req.getParameter("maQuocGia"));
 				VaiTro vaiTro = vaiTroDAO.findById(req.getParameter("maVaiTro"));
 				BeanUtils.populate(dienVienDaoDien, req.getParameterMap());
+				BeanUtils.setProperty(dienVienDaoDien, "ngaySinh", req.getParameter("ngaySinh"));
 				dienVienDaoDien.setQuocGia(quocGia);
 				dienVienDaoDien.setVaiTro(vaiTro);
 				if (part.getSubmittedFileName().isBlank() == false) {
