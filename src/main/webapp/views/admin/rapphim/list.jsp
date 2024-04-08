@@ -22,16 +22,20 @@
 			</div>
 		</div>
 		<form method="post">
-			<select class="form-select form-select-sm"
-				aria-label="Small select example" name="maThanhPho">
-				<option value="">Tất cả</option>
-				<c:forEach var="thanhPho" items="${thanhPhos}" varStatus="loop">
-					<option ${loop.index == 0 ? 'selected="selected"' : ''}
-						value="${thanhPho.maThanhPho}">${thanhPho.tenThanhPho}</option>
-				</c:forEach>
-			</select>
-			<button formaction="rapphims" class="btn btn-primary">Tìm
-				kiếm</button>
+			<div class="d-flex column-gap-3">
+				<input type="text" class="form-control" value=""
+					placeholder="Nhập tên tìm kiếm" style="width: 300px" name="keyword">
+				<select class="form-select form-select-sm"
+					aria-label="Small select example" name="maThanhPho"
+					style="width: 300px">
+					<option value="">Tất cả</option>
+					<c:forEach var="thanhPho" items="${thanhPhos}" varStatus="loop">
+						<option value="${thanhPho.maThanhPho}">${thanhPho.tenThanhPho}</option>
+					</c:forEach>
+				</select>
+				<button formaction="rapphims" class="btn btn-primary">Tìm
+					kiếm</button>
+			</div>
 		</form>
 		<table class="table">
 			<thead>

@@ -54,12 +54,19 @@ public class RapPhimServlet extends HttpServlet {
 	private void listRapPhim(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			String maThanhPho = req.getParameter("maThanhPho");
+			String keywork = req.getParameter("keyword");
 			List<RapPhim> rapPhims = null;
-			if (maThanhPho != "") {
+			if (!maThanhPho.isBlank() && !keywork.isBlank()) {
+				rapPhims = rapPhimDAO.selectAllByCityAndName(maThanhPho, keywork);
+			} else if (!maThanhPho.isBlank() && keywork.isBlank()) {
 				rapPhims = rapPhimDAO.selectAllByCity(maThanhPho);
+			} else if (maThanhPho.isBlank() && !keywork.isBlank()) {
+				rapPhims = rapPhimDAO.selectAllByName(keywork);
 			} else {
 				rapPhims = rapPhimDAO.selectAll();
 			}
+			List<ThanhPho> thanhPhos = thanhPhoDAO.selectAll();
+			req.setAttribute("thanhPhos", thanhPhos);
 			req.setAttribute("rapPhims", rapPhims);
 		} else {
 			List<ThanhPho> thanhPhos = thanhPhoDAO.selectAll();

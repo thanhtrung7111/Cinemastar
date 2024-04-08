@@ -76,10 +76,19 @@ public class RapPhimDAO implements EntityDAO<RapPhim> {
 		return rapPhims;
 	}
 
+	public List<RapPhim> selectAllByName(String name) {
+		String jpql = "SELECT o from RapPhim o where o.tenRapPhim LIKE CONCAT('%',:name ,'%')";
+		TypedQuery<RapPhim> query = entityManager.createQuery(jpql, RapPhim.class);
+		query.setParameter("name", name);
+		List<RapPhim> rapPhims = query.getResultList();
+		return rapPhims;
+	}
+
 	public List<RapPhim> selectAllByCityAndName(String maThanhPho, String name) {
-		String jpql = "SELECT o from RapPhim o where o.thanhPho.maThanhPho = :thanhPho and o.tenRapPhim = :name";
+		String jpql = "SELECT o from RapPhim o where o.thanhPho.maThanhPho = :thanhPho and o.tenRapPhim LIKE CONCAT('%',:name ,'%')";
 		TypedQuery<RapPhim> query = entityManager.createQuery(jpql, RapPhim.class);
 		query.setParameter("thanhPho", maThanhPho);
+		query.setParameter("name", name);
 		List<RapPhim> rapPhims = query.getResultList();
 		return rapPhims;
 	}
