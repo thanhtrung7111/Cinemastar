@@ -112,12 +112,15 @@ public class PhimServlet extends HttpServlet {
 					thamGiaDAO.create(thamGia);
 				}
 				resp.sendRedirect("/cinemastar/admin/phims");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				List<DienVienDaoDien> dienViens = dienVienDaoDienDAO.selectAllByRole("Diễn Viên");
+				List<DienVienDaoDien> daoDiens = dienVienDaoDienDAO.selectAllByRole("Đạo Diễn");
+				List<QuocGia> quocGias = quocGiaDAO.selectAll();
+				req.setAttribute("quocGias", quocGias);
+				req.setAttribute("dienViens", dienViens);
+				req.setAttribute("daoDiens", daoDiens);
+				req.setAttribute("view", "/views/admin/phim/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -157,14 +160,19 @@ public class PhimServlet extends HttpServlet {
 					phim.setHinhAnh(filename);
 				}
 				phimDAO.update(phim);
-				
+
 				resp.sendRedirect("/cinemastar/admin/phims");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				List<DienVienDaoDien> dienViens = dienVienDaoDienDAO.selectAllByRole("Diễn Viên");
+				List<DienVienDaoDien> daoDiens = dienVienDaoDienDAO.selectAllByRole("Đạo Diễn");
+				Phim phim = phimDAO.findById(req.getParameter("maPhim"));
+				List<QuocGia> quocGias = quocGiaDAO.selectAll();
+				req.setAttribute("quocGias", quocGias);
+				req.setAttribute("phim", phim);
+				req.setAttribute("dienViens", dienViens);
+				req.setAttribute("daoDiens", daoDiens);
+				req.setAttribute("view", "/views/admin/phim/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -182,8 +190,13 @@ public class PhimServlet extends HttpServlet {
 	}
 
 	private void deletePhim(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maPhim");
-		phimDAO.delete(id);
+		try {
+			String id = req.getParameter("maPhim");
+			phimDAO.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		resp.sendRedirect("/cinemastar/admin/phims");
 	}
 }

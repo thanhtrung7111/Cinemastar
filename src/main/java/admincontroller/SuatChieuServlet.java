@@ -14,8 +14,12 @@ import model.Ve;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -59,9 +63,19 @@ public class SuatChieuServlet extends HttpServlet {
 			req.setAttribute("view", "/views/admin/suatchieu/list.jsp");
 			req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 		} else if (uri.contains("createsuatchieu")) {
-			createSuatChieu(req, resp);
+			try {
+				createSuatChieu(req, resp);
+			} catch (IOException | ServletException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (uri.contains("updatesuatchieu")) {
-			updateSuatChieu(req, resp);
+			try {
+				updateSuatChieu(req, resp);
+			} catch (IOException | ServletException | ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (uri.contains("deletesuatchieu")) {
 			deleteSuatChieu(req, resp);
 		}
@@ -69,36 +83,41 @@ public class SuatChieuServlet extends HttpServlet {
 	}
 
 	private void createSuatChieu(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
+			throws IOException, ServletException, ParseException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
-				DateTimeConverter dtc = new DateConverter(new Date());
-				dtc.setPattern("MM/dd/yyyy");
-				ConvertUtils.register(dtc, Date.class);
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				SuatChieu suatChieu = new SuatChieu();
 				PhongPhim phongPhim = phongPhimDAO.findById(req.getParameter("maPhongPhim"));
 				Phim phim = phimDAO.findById(req.getParameter("maPhim"));
 				BeanUtils.populate(suatChieu, req.getParameterMap());
+				suatChieu.setNgayChieu(formatter.parse(req.getParameter("ngayChieuu")));
+				suatChieu.setThoiGianChieu(
+						formatter2.parse(formatter.format(new Date()) + " " + req.getParameter("thoiGianChieuu")));
+//				BeanUtils.setProperty(suatChieu, "thoiGianChieu", req.getParameter("thoiGianChieuu"));
 				suatChieu.setPhongPhim(phongPhim);
 				suatChieu.setPhim(phim);
-				suatChieuDAO.create(suatChieu);
-				SuatChieu suatChieuFind = suatChieuDAO.findById(suatChieuDAO.maxIDSuatChieu());
-				if (suatChieuFind != null) {
-					for (Ghe ghe : phongPhim.getGhes()) {
-						Ve ve = new Ve();
-						ve.setGhe(ghe);
-						ve.setSuatChieu(suatChieuFind);
-						ve.setTongTien(ghe.getLoaiGhe().getChiPhi());
-						veDAO.create(ve);
+				if (suatChieuDAO.create(suatChieu) != null) {
+					SuatChieu suatChieuFind = suatChieuDAO.findById(suatChieuDAO.maxIDSuatChieu());
+					if (suatChieuFind != null) {
+						for (Ghe ghe : phongPhim.getGhes()) {
+							Ve ve = new Ve();
+							ve.setGhe(ghe);
+							ve.setSuatChieu(suatChieuFind);
+							ve.setTongTien(ghe.getLoaiGhe().getChiPhi());
+							veDAO.create(ve);
+						}
 					}
 				}
 				resp.sendRedirect("/cinemastar/admin/suatchieus");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				List<PhongPhim> phongPhims = phongPhimDAO.selectAll();
+				List<Phim> phims = phimDAO.selectAll();
+				req.setAttribute("phongPhims", phongPhims);
+				req.setAttribute("phims", phims);
+				req.setAttribute("view", "/views/admin/suatchieu/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -112,26 +131,31 @@ public class SuatChieuServlet extends HttpServlet {
 	}
 
 	private void updateSuatChieu(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
+			throws IOException, ServletException, ParseException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
-				DateTimeConverter dtc = new DateConverter(new Date());
-				dtc.setPattern("MM/dd/yyyy");
-				ConvertUtils.register(dtc, Date.class);
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 				SuatChieu suatChieu = new SuatChieu();
 				PhongPhim phongPhim = phongPhimDAO.findById(req.getParameter("maPhongPhim"));
 				Phim phim = phimDAO.findById(req.getParameter("maPhim"));
 				BeanUtils.populate(suatChieu, req.getParameterMap());
+				suatChieu.setNgayChieu(formatter.parse(req.getParameter("ngayChieuu")));
+				suatChieu.setThoiGianChieu(
+						formatter2.parse(formatter.format(new Date()) + " " + req.getParameter("thoiGianChieuu")));
 				suatChieu.setPhongPhim(phongPhim);
 				suatChieu.setPhim(phim);
 				suatChieuDAO.update(suatChieu);
 				resp.sendRedirect("/cinemastar/admin/suatchieus");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				SuatChieu suatChieu = suatChieuDAO.findById(req.getParameter("maSuatChieu"));
+				List<PhongPhim> phongPhims = phongPhimDAO.selectAll();
+				List<Phim> phims = phimDAO.selectAll();
+				req.setAttribute("phongPhims", phongPhims);
+				req.setAttribute("phims", phims);
+				req.setAttribute("suatChieu", suatChieu);
+				req.setAttribute("view", "/views/admin/suatchieu/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -147,8 +171,13 @@ public class SuatChieuServlet extends HttpServlet {
 	}
 
 	private void deleteSuatChieu(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maSuatChieu");
-		suatChieuDAO.delete(id);
+		try {
+			String id = req.getParameter("maSuatChieu");
+			suatChieuDAO.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		resp.sendRedirect("/cinemastar/admin/suatchieus");
 	}
 }

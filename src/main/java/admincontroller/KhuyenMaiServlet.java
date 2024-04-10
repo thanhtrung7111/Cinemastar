@@ -84,12 +84,9 @@ public class KhuyenMaiServlet extends HttpServlet {
 				khuyenMai.setHinhAnh(filename);
 				khuyenMaiDAO.create(khuyenMai);
 				resp.sendRedirect("/cinemastar/admin/khuyenmais");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				req.setAttribute("view", "/views/admin/khuyenmai/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -127,12 +124,11 @@ public class KhuyenMaiServlet extends HttpServlet {
 				}
 				khuyenMaiDAO.update(khuyenMai);
 				resp.sendRedirect("/cinemastar/admin/khuyenmais");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				KhuyenMai khuyenMai = khuyenMaiDAO.findById(req.getParameter("maKhuyenMai"));
+				req.setAttribute("khuyenMai", khuyenMai);
+				req.setAttribute("view", "/views/admin/khuyenmai/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -144,8 +140,13 @@ public class KhuyenMaiServlet extends HttpServlet {
 	}
 
 	private void deleteKhuyenMai(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maKhuyenMai");
-		khuyenMaiDAO.delete(id);
+		try {
+			String id = req.getParameter("maKhuyenMai");
+			khuyenMaiDAO.delete(id);
+		} catch (Exception e) {
+
+		}
+
 		resp.sendRedirect("/cinemastar/admin/khuyenmais");
 	}
 }

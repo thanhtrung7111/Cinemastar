@@ -31,6 +31,10 @@ public class Ve {
 	@JoinColumn(name = "maSuatChieu")
 	private SuatChieu suatChieu;
 
+	
+	@ManyToOne
+	@JoinColumn(name = "maHD")
+	private HoaDon hoaDon;
 
 	public Ve() {
 		
@@ -74,6 +78,16 @@ public class Ve {
 
 	public void setSuatChieu(SuatChieu suatChieu) {
 		this.suatChieu = suatChieu;
+	}
+
+
+	public HoaDon getHoaDon() {
+		return hoaDon;
+	}
+
+
+	public void setHoaDon(HoaDon hoaDon) {
+		this.hoaDon = hoaDon;
 	}
 	
 	

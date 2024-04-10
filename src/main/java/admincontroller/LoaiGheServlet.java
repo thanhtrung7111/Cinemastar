@@ -49,18 +49,24 @@ public class LoaiGheServlet extends HttpServlet {
 	private void doLoaiGheCreate(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (request.getMethod().equalsIgnoreCase("POST")) {
+			try {
+				String maLoaiGhe = request.getParameter("maLoaiGhe");
+				String tenLoaiGhe = request.getParameter("tenLoaiGhe");
+				String chiPhi = request.getParameter("chiPhi");
+				System.out.println(maLoaiGhe);
+				LoaiGheDAO lgDAO = new LoaiGheDAO();
+				LoaiGhe lg = new LoaiGhe(maLoaiGhe, tenLoaiGhe, Double.parseDouble(chiPhi));
+				lgDAO.create(lg);
+				System.out.println("Thêm thành công");
+//					request.setAttribute("alertMessage", "Bạn vừa thêm mới thành công 1 loại ghế: " +tenLoaiGhe);
+//					request.getSession().setAttribute("alertBoolean", true);
+				response.sendRedirect("/cinemastar/admin/loaighes");
 
-			String maLoaiGhe = request.getParameter("maLoaiGhe");
-			String tenLoaiGhe = request.getParameter("tenLoaiGhe");
-			String chiPhi = request.getParameter("chiPhi");
-			System.out.println(maLoaiGhe);
-			LoaiGheDAO lgDAO = new LoaiGheDAO();
-			LoaiGhe lg = new LoaiGhe(maLoaiGhe, tenLoaiGhe, Double.parseDouble(chiPhi));
-			lgDAO.create(lg);
-			System.out.println("Thêm thành công");
-//				request.setAttribute("alertMessage", "Bạn vừa thêm mới thành công 1 loại ghế: " +tenLoaiGhe);
-//				request.getSession().setAttribute("alertBoolean", true);
-			response.sendRedirect("/cinemastar/admin/loaighes");
+			} catch (Exception e) {
+				request.setAttribute("alertBoolean", false);
+				request.setAttribute("view", "/views/admin/loaighe/loaiGheCreate.jsp");
+				request.getRequestDispatcher("/views/admin/layout.jsp").forward(request, response);
+			}
 
 		} else {// GET METHOD
 			request.setAttribute("alertBoolean", false);
@@ -72,16 +78,26 @@ public class LoaiGheServlet extends HttpServlet {
 	private void doUpdateLoaiGhe(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		if (request.getMethod().equalsIgnoreCase("POST")) {
-
-			String maLoaiGhe = request.getParameter("maLG");
-			String tenLoaiGhe = request.getParameter("tenLoaiGhe");
-			String chiPhi = request.getParameter("chiPhi");
-			LoaiGheDAO lgDAO = new LoaiGheDAO();
-			LoaiGhe lg = new LoaiGhe(maLoaiGhe, tenLoaiGhe, Double.parseDouble(chiPhi));
-			lgDAO.update(lg);
-//				request.setAttribute("alertMessage", "Bạn vừa thêm mới thành công 1 loại ghế: " +tenLoaiGhe);
-//				request.getSession().setAttribute("alertBoolean", true);
-			response.sendRedirect("/cinemastar/admin/loaighes");
+			try {
+				String maLoaiGhe = request.getParameter("maLG");
+				String tenLoaiGhe = request.getParameter("tenLoaiGhe");
+				String chiPhi = request.getParameter("chiPhi");
+				LoaiGheDAO lgDAO = new LoaiGheDAO();
+				LoaiGhe lg = new LoaiGhe(maLoaiGhe, tenLoaiGhe, Double.parseDouble(chiPhi));
+				lgDAO.update(lg);
+//					request.setAttribute("alertMessage", "Bạn vừa thêm mới thành công 1 loại ghế: " +tenLoaiGhe);
+//					request.getSession().setAttribute("alertBoolean", true);
+				response.sendRedirect("/cinemastar/admin/loaighes");
+			} catch (Exception e) {
+				request.setAttribute("alertBoolean", false);
+				String maLoaiGhe = request.getParameter("IdLG");
+				LoaiGheDAO lgDAO = new LoaiGheDAO();
+				LoaiGhe lg = lgDAO.findById(maLoaiGhe);
+				request.setAttribute("lg", lg);
+				System.out.println(lg.getMaLoaiGhe());
+				request.setAttribute("view", "/views/admin/loaighe/loaiGheUpdate.jsp");
+				request.getRequestDispatcher("/views/admin/layout.jsp").forward(request, response);
+			}
 
 		} else { // GET METHOD
 //			request.setAttribute("alertBoolean", false);
@@ -97,12 +113,15 @@ public class LoaiGheServlet extends HttpServlet {
 
 	private void doDeleteLoaiGhe(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		String maLoaiGhe = request.getParameter("IdLG");
-		System.out.println(maLoaiGhe);
-		LoaiGheDAO lgDAO = new LoaiGheDAO();
-		lgDAO.delete(maLoaiGhe);
+		try {
+			String maLoaiGhe = request.getParameter("IdLG");
+			LoaiGheDAO lgDAO = new LoaiGheDAO();
+			lgDAO.delete(maLoaiGhe);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		response.sendRedirect("/cinemastar/admin/loaighes");
+		
 	}
 
 	private void doLoaiGheList(HttpServletRequest request, HttpServletResponse response)

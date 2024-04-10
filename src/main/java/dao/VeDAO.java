@@ -68,6 +68,15 @@ public class VeDAO implements EntityDAO<Ve> {
 		return ves;
 	}
 	
+	public List<Ve> selectAllBySuatChieu(String maSuatChieu) {
+		String jpql = "SELECT o from Ve o where o.suatChieu.maSuatChieu = :maSuatChieu order by o.ghe.tenGhe";
+		TypedQuery<Ve> query = entityManager.createQuery(jpql, Ve.class);
+		query.setParameter("maSuatChieu", maSuatChieu);
+		List<Ve> ves = query.getResultList();
+		return ves;
+	}
+	
+	
 	public String maxIDVe() {
 		String jpql = "SELECT max(t.maVe) from Ve t";
 		TypedQuery<String> query = entityManager.createQuery(jpql, String.class);

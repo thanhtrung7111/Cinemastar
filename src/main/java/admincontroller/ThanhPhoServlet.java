@@ -69,12 +69,9 @@ public class ThanhPhoServlet extends HttpServlet {
 				thanhPhoDAO.create(thanhPho);
 				resp.sendRedirect("/cinemastar/admin/thanhphos");
 
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				req.setAttribute("view", "/views/admin/thanhpho/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -90,12 +87,11 @@ public class ThanhPhoServlet extends HttpServlet {
 				BeanUtils.populate(thanhPho, req.getParameterMap());
 				thanhPhoDAO.update(thanhPho);
 				resp.sendRedirect("/cinemastar/admin/thanhphos");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				ThanhPho thanhPho = thanhPhoDAO.findById(req.getParameter("maThanhPho"));
+				req.setAttribute("thanhpho", thanhPho);
+				req.setAttribute("view", "/views/admin/thanhpho/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -107,8 +103,13 @@ public class ThanhPhoServlet extends HttpServlet {
 	}
 
 	private void deleteThanhPho(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maThanhPho");
-		thanhPhoDAO.delete(id);
+		try {
+			String id = req.getParameter("maThanhPho");
+			thanhPhoDAO.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		resp.sendRedirect("/cinemastar/admin/thanhphos");
 	}
 }

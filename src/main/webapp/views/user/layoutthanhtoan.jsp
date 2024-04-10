@@ -24,16 +24,13 @@
 		<jsp:include page="/views/user/component/stepthanhtoan.jsp"></jsp:include>
 
 		<div class="container mt-4">
-			<div class="row g-4">
-				<jsp:include page="${view}"></jsp:include>
-				<jsp:include page="/views/user/component/thongtinve.jsp"></jsp:include>
-			</div>
+			<jsp:include page="${view}"></jsp:include>
 		</div>
 	</main>
 
 	<jsp:include page="/views/user/component/footer.jsp"></jsp:include>
 	<script type="text/javascript"
-		src=../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
+		src="../bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript" src="../bootstrap-5.3.3-dist/js/main.js"></script>
 </body>
 </html>

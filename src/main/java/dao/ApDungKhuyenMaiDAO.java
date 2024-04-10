@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import model.ApDungKhuyenMai;
+import model.HangGhe;
 import ultis.JpaUltis;
 
 public class ApDungKhuyenMaiDAO implements EntityDAO<ApDungKhuyenMai> {
@@ -18,20 +19,45 @@ public class ApDungKhuyenMaiDAO implements EntityDAO<ApDungKhuyenMai> {
 
 	@Override
 	public ApDungKhuyenMai create(ApDungKhuyenMai entity) {
-		// TODO Auto-generated method stub
+
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.persist(entity);
+			entityManager.getTransaction().commit();
+			return entity;
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			System.out.println(e);
+		}
 		return null;
 	}
 
 	@Override
 	public ApDungKhuyenMai update(ApDungKhuyenMai entity) {
-		// TODO Auto-generated method stub
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.merge(entity);
+			entityManager.getTransaction().commit();
+			return entity;
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			System.out.println(e);
+		}
 		return null;
 	}
 
 	@Override
 	public boolean delete(String id) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			entityManager.getTransaction().begin();
+			ApDungKhuyenMai entity = entityManager.find(ApDungKhuyenMai.class, id);
+			entityManager.remove(entity);
+			entityManager.getTransaction().commit();
+			return true;
+		} catch (Exception e) {
+			entityManager.getTransaction().rollback();
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

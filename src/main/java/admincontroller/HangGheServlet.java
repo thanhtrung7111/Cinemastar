@@ -19,7 +19,7 @@ import dao.HangGheDAO;
 /**
  * Servlet implementation class HangGheServlet
  */
-@WebServlet({"/admin/hangghes","/admin/createhangghe","/admin/updatehangghe","/admin/deletehangghe"})
+@WebServlet({ "/admin/hangghes", "/admin/createhangghe", "/admin/updatehangghe", "/admin/deletehangghe" })
 public class HangGheServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private HangGheDAO hangGheDAO;
@@ -58,14 +58,10 @@ public class HangGheServlet extends HttpServlet {
 				BeanUtils.populate(hangGhe, req.getParameterMap());
 				hangGheDAO.create(hangGhe);
 				resp.sendRedirect("/cinemastar/admin/hangghes");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				req.setAttribute("view", "/views/admin/hangghe/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
-
 		} else {
 			req.setAttribute("view", "/views/admin/hangghe/create.jsp");
 			req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
@@ -79,14 +75,12 @@ public class HangGheServlet extends HttpServlet {
 				BeanUtils.populate(hangGhe, req.getParameterMap());
 				hangGheDAO.update(hangGhe);
 				resp.sendRedirect("/cinemastar/admin/hangghes");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				HangGhe hangGhe = hangGheDAO.findById(req.getParameter("maHangGhe"));
+				req.setAttribute("hangGhe", hangGhe);
+				req.setAttribute("view", "/views/admin/hangghe/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
-
 		} else {
 			HangGhe hangGhe = hangGheDAO.findById(req.getParameter("maHangGhe"));
 			req.setAttribute("hangGhe", hangGhe);
@@ -96,8 +90,12 @@ public class HangGheServlet extends HttpServlet {
 	}
 
 	private void deleteHangGhe(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maHangGhe");
-		hangGheDAO.delete(id);
+		try {
+			String id = req.getParameter("maHangGhe");
+			hangGheDAO.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		resp.sendRedirect("/cinemastar/admin/hangghes");
 	}
 }

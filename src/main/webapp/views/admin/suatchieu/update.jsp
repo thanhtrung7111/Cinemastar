@@ -26,7 +26,7 @@
 				<div>
 					<label class="form-label text-sm text-dark fw-bolder mb-1">Thời
 						gian chiếu</label> <input type="time" class="form-control form-control-sm"
-						id="exampleFormControlInputs1" name="thoiGianChieu"
+						id="exampleFormControlInputs1" name="thoiGianChieuu"
 						value="${suatChieu.thoiGianChieu}" placeholder="Nhập tên rạp phim" />
 				</div>
 			</div>
@@ -34,7 +34,7 @@
 				<div>
 					<label class="form-label text-sm text-dark fw-bolder mb-1">Ngày
 						chiếu</label> <input type="date" class="form-control form-control-sm"
-						id="exampleFormControlInput1" name="ngayChieu"
+						id="exampleFormControlInput1" name="ngayChieuu"
 						value="${suatChieu.ngayChieu}" placeholder="Nhập địa chỉ" />
 				</div>
 			</div>

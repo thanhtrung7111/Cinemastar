@@ -58,7 +58,8 @@ public class LoaiNhanVienServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	private void createLoaiNhanVien(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+	private void createLoaiNhanVien(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException, ServletException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
 				LoaiNhanVien loaiNhanVien = new LoaiNhanVien();
@@ -66,12 +67,9 @@ public class LoaiNhanVienServlet extends HttpServlet {
 				loaiNhanVienDAO.create(loaiNhanVien);
 				resp.sendRedirect("/cinemastar/admin/loainhanviens");
 
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				req.setAttribute("view", "/views/admin/loainhanvien/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -80,19 +78,19 @@ public class LoaiNhanVienServlet extends HttpServlet {
 		}
 	}
 
-	private void updateLoaiNhanVien(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+	private void updateLoaiNhanVien(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException, ServletException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
 				LoaiNhanVien loaiNhanVien = new LoaiNhanVien();
 				BeanUtils.populate(loaiNhanVien, req.getParameterMap());
 				loaiNhanVienDAO.update(loaiNhanVien);
 				resp.sendRedirect("/cinemastar/admin/loainhanviens");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				LoaiNhanVien loaiNhanVien = loaiNhanVienDAO.findById(req.getParameter("maLoaiNhanVien"));
+				req.setAttribute("loaiNhanVien", loaiNhanVien);
+				req.setAttribute("view", "/views/admin/loainhanvien/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -104,9 +102,14 @@ public class LoaiNhanVienServlet extends HttpServlet {
 	}
 
 	private void deleteLoaiNhanVien(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maLoaiNhanVien");
-		loaiNhanVienDAO.delete(id);
+		try {
+			String id = req.getParameter("maLoaiNhanVien");
+			loaiNhanVienDAO.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		resp.sendRedirect("/cinemastar/admin/loainhanviens");
+		
 	}
 
 }

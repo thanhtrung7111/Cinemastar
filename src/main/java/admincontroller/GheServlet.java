@@ -68,7 +68,7 @@ public class GheServlet extends HttpServlet {
 			LoaiGhe loaiGhe = loaiGheDAO.findById(req.getParameter("maLoaiGhe"));
 			List<HangGhe> hangGhes = hangGheDAO.selectAll();
 			for (HangGhe hangGhe : hangGhes) {
-				for (int i = 1; i <= 10; i++) {
+				for (int i = 0; i <= 9; i++) {
 					Ghe ghe = new Ghe();
 					ghe.setTenGhe(hangGhe.getTenHangGhe() + i);
 					ghe.setLoaiGhe(loaiGhe);

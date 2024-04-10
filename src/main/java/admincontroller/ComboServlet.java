@@ -19,50 +19,47 @@ import dao.ComboDoAnDAO;
 /**
  * Servlet implementation class ComboServlet
  */
-@WebServlet({"/admin/combos","/admin/createcombo","/admin/updatecombo","/admin/deletecombo"})
+@WebServlet({ "/admin/combos", "/admin/createcombo", "/admin/updatecombo", "/admin/deletecombo" })
 public class ComboServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-      private ComboDoAnDAO comboDoAnDAO;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ComboServlet() {
-        super();
-        comboDoAnDAO = new ComboDoAnDAO();
-        // TODO Auto-generated constructor stub
-    }
-    
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	String uri = req.getRequestURI();
-    	if(uri.contains("combos")) {
-    		List<ComboDoAn> combos = comboDoAnDAO.selectAll();
-    		req.setAttribute("combos", combos);
-    		req.setAttribute("view","/views/admin/combo/list.jsp");
-    		req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
-    	}else if(uri.contains("createcombo")) {
-    		createCombo(req, resp);
-    	}else if(uri.contains("updatecombo")) {
-    		updateCombo(req, resp);
-    	}else if(uri.contains("deletecombo")) {
-    		deleteCombo(req, resp);
-    	}
-    }
+	private ComboDoAnDAO comboDoAnDAO;
 
-	private void createCombo(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ComboServlet() {
+		super();
+		comboDoAnDAO = new ComboDoAnDAO();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String uri = req.getRequestURI();
+		if (uri.contains("combos")) {
+			List<ComboDoAn> combos = comboDoAnDAO.selectAll();
+			req.setAttribute("combos", combos);
+			req.setAttribute("view", "/views/admin/combo/list.jsp");
+			req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
+		} else if (uri.contains("createcombo")) {
+			createCombo(req, resp);
+		} else if (uri.contains("updatecombo")) {
+			updateCombo(req, resp);
+		} else if (uri.contains("deletecombo")) {
+			deleteCombo(req, resp);
+		}
+	}
+
+	private void createCombo(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
 				ComboDoAn combo = new ComboDoAn();
 				BeanUtils.populate(combo, req.getParameterMap());
 				comboDoAnDAO.create(combo);
 				resp.sendRedirect("/cinemastar/admin/combos");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				req.setAttribute("view", "/views/admin/combo/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -71,20 +68,16 @@ public class ComboServlet extends HttpServlet {
 		}
 	}
 
-	private void updateCombo(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException, ServletException {
+	private void updateCombo(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		if (req.getMethod().equalsIgnoreCase("post")) {
 			try {
 				ComboDoAn combo = new ComboDoAn();
 				BeanUtils.populate(combo, req.getParameterMap());
 				comboDoAnDAO.update(combo);
 				resp.sendRedirect("/cinemastar/admin/combos");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				req.setAttribute("view", "/views/admin/combo/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {

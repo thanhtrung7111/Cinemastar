@@ -7,11 +7,13 @@
 	class="bg-white py-4 d-flex justify-content-center align-items-center">
 	<div class="border-1 border-bottom d-flex" style="width: fit-content">
 		<div
-			class="px-3 pb-2 fs-5 text-first border-bottom border-2 border-first">
+			class="px-3 pb-2 fs-5  border-bottom border-2 text-first border-first">
 			Chọn rạp/phim/suất</div>
-		<div class="px-3 pb-2 fs-5 text-dark">Chọn ghế</div>
-		<div class="px-3 pb-2 fs-5 text-dark">Chọn thức ăn</div>
-		<div class="px-3 pb-2 fs-5 text-dark">Thanh toán</div>
+		<div
+			class="px-3 pb-2 fs-5 ${sessionScope.suatChieu != null ? 'border-first text-first  border-bottom border-2':'text-dark'}">Chọn
+			ghế</div>
+		<div class="px-3 pb-2 fs-5 ${sessionScope.ves != null ? 'border-first text-first  border-bottom border-2':'text-dark'}">Chọn thức ăn</div>
+		<div class="px-3 pb-2 fs-5 ${sessionScope.mapCombo != null ? 'border-first text-first  border-bottom border-2':'text-dark'}">Thanh toán</div>
 		<div class="px-3 pb-2 fs-5 text-dark">Xác nhận</div>
 	</div>
 </div>

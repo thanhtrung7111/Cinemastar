@@ -60,12 +60,9 @@ public class LoaiTaiKhoanServlet extends HttpServlet {
 				BeanUtils.populate(loaiTaiKhoan, req.getParameterMap());
 				loaiTaiKhoanDAO.create(loaiTaiKhoan);
 				resp.sendRedirect("/cinemastar/admin/loaitaikhoans");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				req.setAttribute("view", "/views/admin/loaitaikhoan/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -82,14 +79,12 @@ public class LoaiTaiKhoanServlet extends HttpServlet {
 				BeanUtils.populate(loaiTaiKhoan, req.getParameterMap());
 				loaiTaiKhoanDAO.update(loaiTaiKhoan);
 				resp.sendRedirect("/cinemastar/admin/loaitaikhoans");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				LoaiTaiKhoan loaiTaiKhoan = loaiTaiKhoanDAO.findById(req.getParameter("maLoaiTaiKhoan"));
+				req.setAttribute("loaiTaiKhoan", loaiTaiKhoan);
+				req.setAttribute("view", "/views/admin/loaitaikhoan/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
-
 		} else {
 			LoaiTaiKhoan loaiTaiKhoan = loaiTaiKhoanDAO.findById(req.getParameter("maLoaiTaiKhoan"));
 			req.setAttribute("loaiTaiKhoan", loaiTaiKhoan);
@@ -99,8 +94,13 @@ public class LoaiTaiKhoanServlet extends HttpServlet {
 	}
 
 	private void deleteLoaiTaiKhoan(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maLoaiTaiKhoan");
-		loaiTaiKhoanDAO.delete(id);
+		try {
+			String id = req.getParameter("maLoaiTaiKhoan");
+			loaiTaiKhoanDAO.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		resp.sendRedirect("/cinemastar/admin/loaitaikhoans");
+		
 	}
 }

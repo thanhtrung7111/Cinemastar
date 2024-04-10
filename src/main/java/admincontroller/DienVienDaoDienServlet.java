@@ -99,12 +99,13 @@ public class DienVienDaoDienServlet extends HttpServlet {
 				dienVienDaoDien.setHinhAnh(filename);
 				dienVienDaoDienDAO.create(dienVienDaoDien);
 				resp.sendRedirect("/cinemastar/admin/dienviens");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				List<QuocGia> quocGias = quocGiaDAO.selectAll();
+				List<VaiTro> vaiTros = vaiTroDAO.selectAll();
+				req.setAttribute("quocGias", quocGias);
+				req.setAttribute("vaiTros", vaiTros);
+				req.setAttribute("view", "/views/admin/dienvien/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -149,12 +150,15 @@ public class DienVienDaoDienServlet extends HttpServlet {
 				}
 				dienVienDaoDienDAO.update(dienVienDaoDien);
 				resp.sendRedirect("/cinemastar/admin/dienviens");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				DienVienDaoDien dienVienDaoDien = dienVienDaoDienDAO.findById(req.getParameter("maDV_DD"));
+				List<QuocGia> quocGias = quocGiaDAO.selectAll();
+				List<VaiTro> vaiTros = vaiTroDAO.selectAll();
+				req.setAttribute("quocGias", quocGias);
+				req.setAttribute("vaiTros", vaiTros);
+				req.setAttribute("dienVienDaoDien", dienVienDaoDien);
+				req.setAttribute("view", "/views/admin/dienvien/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -170,8 +174,12 @@ public class DienVienDaoDienServlet extends HttpServlet {
 	}
 
 	private void deleteDienVien(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maDV_DD");
-		dienVienDaoDienDAO.delete(id);
+		try {
+			String id = req.getParameter("maDV_DD");
+			dienVienDaoDienDAO.delete(id);
+		} catch (Exception e) {
+
+		}
 		resp.sendRedirect("/cinemastar/admin/dienviens");
 	}
 }

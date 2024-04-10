@@ -65,12 +65,9 @@ public class VaiTroServlet extends HttpServlet {
 				vaiTroDAO.create(vaiTro);
 				resp.sendRedirect("/cinemastar/admin/vaitros");
 
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				req.setAttribute("view", "/views/admin/vaitro/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -86,12 +83,11 @@ public class VaiTroServlet extends HttpServlet {
 				BeanUtils.populate(vaiTro, req.getParameterMap());
 				vaiTroDAO.update(vaiTro);
 				resp.sendRedirect("/cinemastar/admin/vaitros");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				VaiTro vaiTro = vaiTroDAO.findById(req.getParameter("maVaiTro"));
+				req.setAttribute("vaiTro", vaiTro);
+				req.setAttribute("view", "/views/admin/vaitro/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {

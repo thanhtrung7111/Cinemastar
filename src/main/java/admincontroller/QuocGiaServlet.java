@@ -19,10 +19,11 @@ import dao.QuocGiaDAO;
 /**
  * Servlet implementation class QuocGiaServlet
  */
-@WebServlet({"/admin/quocgias","/admin/createquocgia","/admin/updatequocgia","/admin/deletequocgia"})
+@WebServlet({ "/admin/quocgias", "/admin/createquocgia", "/admin/updatequocgia", "/admin/deletequocgia" })
 public class QuocGiaServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private QuocGiaDAO quocGiaDAO;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -57,12 +58,9 @@ public class QuocGiaServlet extends HttpServlet {
 				BeanUtils.populate(quocGia, req.getParameterMap());
 				quocGiaDAO.create(quocGia);
 				resp.sendRedirect("/cinemastar/admin/quocgias");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				req.setAttribute("view", "/views/admin/quocgia/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -78,12 +76,11 @@ public class QuocGiaServlet extends HttpServlet {
 				BeanUtils.populate(quocGia, req.getParameterMap());
 				quocGiaDAO.update(quocGia);
 				resp.sendRedirect("/cinemastar/admin/quocgias");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				QuocGia quocGia = quocGiaDAO.findById(req.getParameter("maQuocGia"));
+				req.setAttribute("quocGia", quocGia);
+				req.setAttribute("view", "/views/admin/quocgia/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -95,8 +92,13 @@ public class QuocGiaServlet extends HttpServlet {
 	}
 
 	private void deleteQuocGia(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maQuocGia");
-		quocGiaDAO.delete(id);
+		try {
+			String id = req.getParameter("maQuocGia");
+			quocGiaDAO.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
 		resp.sendRedirect("/cinemastar/admin/quocgias");
 	}
 

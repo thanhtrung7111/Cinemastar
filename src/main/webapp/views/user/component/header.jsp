@@ -6,7 +6,7 @@
 <c:url var="url" value="/"></c:url>
 <div class="modal fade" id="modalLogin" tabindex="-1" aria-hidden="true">
 	<div class="modal-dialog">
-		<form class="modal-content pb-5 px-4" action="method">
+		<form id="formLogin" class="modal-content pb-5 px-4" action="method">
 			<div class="modal-header border-0">
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
@@ -623,7 +623,7 @@
 			</div>
 
 			<c:if test="${sessionScope.user == null}">
-				<button class="bg-transparent border-0 text-sm text-dark"
+				<button class="bg-transparent border-0 text-sm text-dark" id="buttonModalLogin"
 					data-bs-toggle="modal" data-bs-target="#modalLogin">Đăng
 					nhập</button>
 			</c:if>

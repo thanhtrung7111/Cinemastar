@@ -89,12 +89,11 @@ public class RapPhimServlet extends HttpServlet {
 				rapPhim.setThanhPho(thanhPho);
 				rapPhimDAO.create(rapPhim);
 				resp.sendRedirect("/cinemastar/admin/rapphims");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				List<ThanhPho> thanhPhos = thanhPhoDAO.selectAll();
+				req.setAttribute("thanhPhos", thanhPhos);
+				req.setAttribute("view", "/views/admin/rapphim/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -114,12 +113,13 @@ public class RapPhimServlet extends HttpServlet {
 				rapPhim.setThanhPho(thanhPho);
 				rapPhimDAO.update(rapPhim);
 				resp.sendRedirect("/cinemastar/admin/rapphims");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				RapPhim rapPhim = rapPhimDAO.findById(req.getParameter("maRapPhim"));
+				List<ThanhPho> thanhPhos = thanhPhoDAO.selectAll();
+				req.setAttribute("rapPhim", rapPhim);
+				req.setAttribute("thanhPhos", thanhPhos);
+				req.setAttribute("view", "/views/admin/rapphim/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -133,8 +133,12 @@ public class RapPhimServlet extends HttpServlet {
 	}
 
 	private void deleteRapPhim(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String id = req.getParameter("maRapPhim");
-		rapPhimDAO.delete(id);
+		try {
+			String id = req.getParameter("maRapPhim");
+			rapPhimDAO.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 		resp.sendRedirect("/cinemastar/admin/rapphims");
 	}

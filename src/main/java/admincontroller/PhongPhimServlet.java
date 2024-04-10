@@ -69,12 +69,11 @@ public class PhongPhimServlet extends HttpServlet {
 				phongPhim.setRapPhim(rapPhim);
 				phongPhimDAO.create(phongPhim);
 				resp.sendRedirect("/cinemastar/admin/phongphims");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				List<RapPhim> rapPhims = rapPhimDAO.selectAll();
+				req.setAttribute("rapPhims", rapPhims);
+				req.setAttribute("view", "/views/admin/phongphim/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -95,13 +94,14 @@ public class PhongPhimServlet extends HttpServlet {
 				phongPhim.setRapPhim(rapPhim);
 				phongPhimDAO.update(phongPhim);
 				resp.sendRedirect("/cinemastar/admin/phongphims");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (Exception e) {
+				List<RapPhim> rapPhims = rapPhimDAO.selectAll();
+				PhongPhim phongPhim = phongPhimDAO.findById(req.getParameter("maPhongPhim"));
+				req.setAttribute("phongPhim", phongPhim);
+				req.setAttribute("rapPhims", rapPhims);
+				req.setAttribute("view", "/views/admin/phongphim/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
+			} 
 
 		} else {
 			List<RapPhim> rapPhims = rapPhimDAO.selectAll();
@@ -114,8 +114,12 @@ public class PhongPhimServlet extends HttpServlet {
 	}
 
 	private void deletePhongPhim(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maPhongPhim");
-		phongPhimDAO.delete(id);
+		try {
+			String id = req.getParameter("maPhongPhim");
+			phongPhimDAO.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		resp.sendRedirect("/cinemastar/admin/phongphims");
 	}
 

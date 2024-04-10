@@ -72,7 +72,6 @@ public class PageServlet extends HttpServlet {
 			req.getRequestDispatcher("/views/user/layout.jsp").forward(req, resp);
 		} else if (uri.contains("login")) {
 			doLogin(req, resp);
-
 		} else if (uri.contains("logout")) {
 			doLogout(req, resp);
 		}

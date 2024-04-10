@@ -11,10 +11,32 @@ scrolls.forEach((item) =>
 		}
 	})
 );
-var loadFile = function(event) {
-	var output = document.getElementById('output');
-	output.src = URL.createObjectURL(event.target.files[0]);
-	output.onload = function() {
-		URL.revokeObjectURL(output.src) // free memory
-	}
-};
+
+const ghes = document.querySelectorAll(".checkghe");
+ghes.forEach(item => {
+	item.addEventListener('click', function() {
+		if (item.classList.contains("checkghe-active")) {
+			item.classList.remove("checkghe-active");
+			item.style.backgroundColor = "#FFFFFF ";
+			item.style.color = "#5c5c5c";
+		} else {
+			item.classList.add("checkghe-active");
+			item.style.backgroundColor = "#730f0f ";
+			item.style.color = "#FFFFFF";
+		}
+
+	})
+})
+
+const checksuats = document.querySelectorAll(".checksuat");
+checksuats.forEach(item => {
+	item.addEventListener('click', function() {
+		console.log("hello");
+		checksuats.forEach(ite => {
+			ite.style.backgroundColor = "#ffffff";
+			ite.style.color = "#5c5c5c";
+		})
+		item.style.backgroundColor = "#730f0f";
+		item.style.color = "#ffffff";
+	})
+})

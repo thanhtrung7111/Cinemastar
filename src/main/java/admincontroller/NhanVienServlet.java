@@ -84,12 +84,13 @@ public class NhanVienServlet extends HttpServlet {
 				nhanVienDAO.create(nhanVien);
 				resp.sendRedirect("/cinemastar/admin/nhanviens");
 
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				List<RapPhim> rapPhims = rapPhimDAO.selectAll();
+				List<LoaiNhanVien> loaiNhanViens = loaiNhanVienDAO.selectAll();
+				req.setAttribute("loaiNhanViens", loaiNhanViens);
+				req.setAttribute("rapPhims", rapPhims);
+				req.setAttribute("view", "/views/admin/nhanvien/create.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -116,12 +117,15 @@ public class NhanVienServlet extends HttpServlet {
 				nhanVien.setLoaiNhanVien(loaiNhanVien);
 				nhanVienDAO.update(nhanVien);
 				resp.sendRedirect("/cinemastar/admin/nhanviens");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (Exception e) {
+				NhanVien nhanVien = nhanVienDAO.findById(req.getParameter("maNhanVien"));
+				List<RapPhim> rapPhims = rapPhimDAO.selectAll();
+				List<LoaiNhanVien> loaiNhanViens = loaiNhanVienDAO.selectAll();
+				req.setAttribute("nhanVien", nhanVien);
+				req.setAttribute("rapPhims", rapPhims);
+				req.setAttribute("loaiNhanViens", loaiNhanViens);
+				req.setAttribute("view", "/views/admin/nhanvien/update.jsp");
+				req.getRequestDispatcher("/views/admin/layout.jsp").forward(req, resp);
 			}
 
 		} else {
@@ -137,8 +141,12 @@ public class NhanVienServlet extends HttpServlet {
 	}
 
 	private void deleteNhanVien(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String id = req.getParameter("maNhanVien");
-		nhanVienDAO.delete(id);
+		try {
+			String id = req.getParameter("maNhanVien");
+			nhanVienDAO.delete(id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		resp.sendRedirect("/cinemastar/admin/nhanviens");
 	}
 
