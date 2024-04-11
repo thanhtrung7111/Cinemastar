@@ -46,7 +46,7 @@
 								class='${phongPhim.trangThai ? "bg-success" : "bg-danger"} p-2 text-white'
 								style="width: fit-content">${phongPhim.trangThai ? "Đang hoạt động":"Ngừng hoạt động"}</div>
 						</td>
-						<td>${phongPhim.soGhe}</td>
+						<td>${phongPhim.ghes.size()}</td>
 						<td>${phongPhim.rapPhim.tenRapPhim}</td>
 
 						<td>

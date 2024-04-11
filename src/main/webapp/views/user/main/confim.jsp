@@ -9,9 +9,10 @@
 		<div
 			class="gap-3 align-items-center bg-white py-3 px-4 rounded-3 shadow-sm mb-4">
 
-			<div>
-				<h5>Thanh toán thành công</h5>
-				<a href="${url}trangchu"></a>
+			<div class="text-center" style="min-height: 500px">
+				<h5>${message}</h5>
+				<a class="btn bg-first text-white" href="${url}trangchu">Về
+					trang chủ</a>
 			</div>
 
 		</div>

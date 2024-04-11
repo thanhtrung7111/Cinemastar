@@ -26,9 +26,10 @@
 						style="width: 500px">
 						<c:forEach var="ve" items="${ves}">
 							<input type="checkbox" id="${ve.maVe}" name="maVe"
+								${ve.hoaDon.trangThai == true ? 'disabled' : ''}
 								value="${ve.maVe}" hidden>
 							<label style="width: 30px; height: 30px" for="${ve.maVe}"
-								class="border checkghe d-flex align-items-center justify-content-center rounded-2 text-sm">
+								class="border checkghe d-flex ${ve.hoaDon.trangThai == true ? 'text-white bg-second':''} align-items-center justify-content-center rounded-2 text-sm">
 								${ve.ghe.tenGhe}</label>
 						</c:forEach>
 					</div>

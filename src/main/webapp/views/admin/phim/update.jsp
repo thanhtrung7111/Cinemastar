@@ -6,8 +6,9 @@
 <div class="py-2 px-3">
 	<h5 class="text-dark fs-6 my-3">Trang chủ / Quản lý phim / Cập
 		nhật</h5>
-	<form class="rounded-3 overflow-hidden shadow-sm bg-white px-4 py-3"
-		enctype="multipart/form-data" method="post">
+	<form
+		class="rounded-3 overflow-hidden shadow-sm bg-white px-4 py-3 needs-validation"
+		novalidate enctype="multipart/form-data" method="post">
 		<!-- <div class="d-flex justify-content-between"> -->
 		<h5 class="mb-4">Cập nhật phim</h5>
 		<!-- <div>
@@ -35,38 +36,54 @@
 					<div>
 						<label class="form-label text-sm text-dark fw-bolder mb-1">Tên
 							phim</label> <input type="text" class="form-control form-control-sm"
-							name="tenPhim" value="${phim.tenPhim}"
-							id="exampleFormControlInput1" placeholder="Nhập tên phim" />
+							name="tenPhim" value="${phim.tenPhim}" pattern="(.|\n)*\S(.|\n)*"
+							required id="exampleFormControlInput1"
+							placeholder="Nhập tên phim" />
+						<div class="invalid-feedback text-danger" style="font-size: 12px">Tên
+							phim không được để trống!</div>
 					</div>
 					<div>
 						<label class="form-label text-sm text-dark fw-bolder mb-1">Năm
 							sản xuất</label> <input type="text" class="form-control form-control-sm"
-							value="${phim.namSanXuat}" name="namSanXuat"
-							id="exampleFormControlInput1" placeholder="Nhập năm sản xuất" />
+							value="${phim.namSanXuat}" name="namSanXuat" pattern="[0-4]{4}"
+							required id="exampleFormControlInput1"
+							placeholder="Nhập năm sản xuất" />
+						<div class="invalid-feedback text-danger" style="font-size: 12px">Năm
+							không được để trống!</div>
 					</div>
 					<div>
 						<label class="form-label text-sm text-dark fw-bolder mb-1">Thời
 							lượng</label> <input type="number" class="form-control form-control-sm"
-							value="${phim.thoiLuong}" name="thoiLuong"
-							id="exampleFormControlInput1" placeholder="Nhập thời lượng" />
+							value="${phim.thoiLuong}" name="thoiLuong" min="60" max="240"
+							required id="exampleFormControlInput1"
+							placeholder="Nhập thời lượng" />
+						<div class="invalid-feedback text-danger" style="font-size: 12px">Thời
+							lượng từ 60 - 240 phút!</div>
 					</div>
 					<div>
 						<label class="form-label text-sm text-dark fw-bolder mb-1">Mô
 							tả</label> <input type="text" class="form-control form-control-sm"
-							value="${phim.moTa}" name="moTa" id="exampleFormControlInput1"
+							pattern="(.|\n)*\S(.|\n)*" required value="${phim.moTa}"
+							name="moTa" id="exampleFormControlInput1"
 							placeholder="Nhập mô tả" />
+						<div class="invalid-feedback text-danger" style="font-size: 12px">Mô
+							tả không để trống!</div>
 					</div>
 					<div>
 						<label class="form-label text-sm text-dark fw-bolder mb-1">Nội
 							dung</label>
 						<textarea class="form-control form-control-sm" name="noiDung"
 							id="exampleFormControlInput1" rows="5" placeholder="Nhập mô tả">${phim.noiDung}</textarea>
+						<div class="invalid-feedback text-danger" style="font-size: 12px">Nội
+							dung không để trống!</div>
 					</div>
 					<div>
 						<label class="form-label text-sm text-dark fw-bolder mb-1">Trailer</label>
 						<input type="text" class="form-control form-control-sm"
-							value="${phim.trailer}" name="trailer"
-							id="exampleFormControlInput1" placeholder="Nhập địa chỉ" />
+							value="${phim.trailer}" name="trailer" pattern="(.|\n)*\S(.|\n)*"
+							required id="exampleFormControlInput1" placeholder="Nhập địa chỉ" />
+						<div class="invalid-feedback text-danger" style="font-size: 12px">Trailer
+							không được để trống!</div>
 					</div>
 					<div>
 						<label class="form-label text-sm text-dark fw-bolder mb-1">Quốc
@@ -94,6 +111,8 @@
 
 								</c:forEach>
 							</select>
+							<div class="invalid-feedback text-danger" style="font-size: 12px">Diễn
+								viên không để trống!</div>
 						</div>
 						<div class="col-6">
 							<label class="form-label text-sm text-dark fw-bolder mb-1">Đạo
@@ -107,6 +126,8 @@
 									</c:if>
 								</c:forEach>
 							</select>
+							<div class="invalid-feedback text-danger" style="font-size: 12px">Đạo
+								diễn không để trống!</div>
 						</div>
 					</div>
 				</div>
@@ -123,3 +144,23 @@
 		<div></div>
 	</div>
 </div>
+
+<script type="text/javascript">// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+	  'use strict'
+
+	  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+	  const forms = document.querySelectorAll('.needs-validation')
+
+	  // Loop over them and prevent submission
+	  Array.from(forms).forEach(form => {
+	    form.addEventListener('submit', event => {
+	      if (!form.checkValidity()) {
+	        event.preventDefault()
+	        event.stopPropagation()
+	      }
+
+	      form.classList.add('was-validated')
+	    }, false)
+	  })
+	})()</script>

@@ -59,6 +59,7 @@ public class PageUserServlet extends HttpServlet {
 	private TaiKhoanDAO taiKhoanDAO;
 	private ApDungKhuyenMaiDAO apDungKhuyenMaiDAO;
 	private ChiTietComBoDAO chiTietComBoDAO;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -149,7 +150,8 @@ public class PageUserServlet extends HttpServlet {
 
 	private void incrementcombo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HashMap<ComboDoAn, Integer> mapCombo = (HashMap<ComboDoAn, Integer>) req.getSession().getAttribute("mapCombo");
-		double tongTien = (double) req.getSession().getAttribute("tongTien");
+		List<Ve> ves = (List<Ve>) req.getSession().getAttribute("ves");
+		double tongTien = 0;
 		String maCombo = req.getParameter("maCombo");
 		System.out.println(mapCombo);
 		if (mapCombo.isEmpty()) {
@@ -164,6 +166,9 @@ public class PageUserServlet extends HttpServlet {
 		for (Map.Entry<ComboDoAn, Integer> entry : mapCombo.entrySet()) {
 			tongTien += entry.getValue() * entry.getKey().getGiaCombo();
 		}
+		for (Ve ve : ves) {
+			tongTien += ve.getTongTien();
+		}
 		req.getSession().setAttribute("mapCombo", mapCombo);
 		req.getSession().setAttribute("tongTien", tongTien);
 		resp.sendRedirect("/cinemastar/user/choncombo");
@@ -171,7 +176,7 @@ public class PageUserServlet extends HttpServlet {
 
 	private void decrementCombo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HashMap<ComboDoAn, Integer> mapCombo = (HashMap<ComboDoAn, Integer>) req.getSession().getAttribute("mapCombo");
-
+		List<Ve> ves = (List<Ve>) req.getSession().getAttribute("ves");
 		double tongTien = (double) req.getSession().getAttribute("tongTien");
 		String maCombo = req.getParameter("maCombo");
 		ComboDoAn comboDoAn = comboDoAnDAO.findById(maCombo);
@@ -187,6 +192,9 @@ public class PageUserServlet extends HttpServlet {
 		for (Map.Entry<ComboDoAn, Integer> entry : mapCombo.entrySet()) {
 			tongTien += entry.getValue() * entry.getKey().getGiaCombo();
 		}
+		for (Ve ve : ves) {
+			tongTien += ve.getTongTien();
+		}
 		req.getSession().setAttribute("tongTien", tongTien);
 		req.getSession().setAttribute("mapCombo", mapCombo);
 		resp.sendRedirect("/cinemastar/user/choncombo");
@@ -200,7 +208,6 @@ public class PageUserServlet extends HttpServlet {
 			String orderType = "other";
 			long amount = ((int) Double.parseDouble(tongTien)) * 100;
 //			String bankCode = req.getParameter("NCB");
-			
 
 			String vnp_TxnRef = Config.getRandomNumber(8);
 			String vnp_IpAddr = Config.getIpAddress(req);
@@ -262,44 +269,43 @@ public class PageUserServlet extends HttpServlet {
 			String vnp_SecureHash = Config.hmacSHA512(Config.secretKey, hashData.toString());
 			queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
 			String paymentUrl = Config.vnp_PayUrl + "?" + queryUrl;
-			
-			
+
 			KhuyenMai khuyenMai = (KhuyenMai) req.getSession().getAttribute("khuyenMai");
-			HashMap<ComboDoAn,Integer> mapCombo = (HashMap<ComboDoAn,Integer>) req.getSession().getAttribute("mapCombo");
-			List<Ve> ves = (List<Ve>)req.getSession().getAttribute("ves");
-			
+			HashMap<ComboDoAn, Integer> mapCombo = (HashMap<ComboDoAn, Integer>) req.getSession()
+					.getAttribute("mapCombo");
+			List<Ve> ves = (List<Ve>) req.getSession().getAttribute("ves");
+
 			TaiKhoan taiKhoan = taiKhoanDAO.findById("thanhtrung");
 			HoaDon hoaDon = new HoaDon();
 			hoaDon.setNgayLapHD(new Date());
 			hoaDon.setTaiKhoan(taiKhoan);
-			hoaDon.setTongTien((double)req.getSession().getAttribute("tongTien"));
+			hoaDon.setTongTien((double) req.getSession().getAttribute("tongTien"));
 			SimpleDateFormat spl = new SimpleDateFormat("yyyyMMdd");
-			
-			hoaDon.setCode(vnp_TxnRef+spl.format(new Date()));
+
+			hoaDon.setCode(vnp_TxnRef + spl.format(new Date()));
 			hoaDon.setTaiKhoan(taiKhoan);
-			if(hoaDonDAO.create(hoaDon)!=null) {
+			if (hoaDonDAO.create(hoaDon) != null) {
 				HoaDon hoaDonFind = hoaDonDAO.findById(hoaDonDAO.maxIDHoaDon());
 				ApDungKhuyenMai apDungKhuyenMai = new ApDungKhuyenMai();
 				apDungKhuyenMai.setHoaDon(hoaDonFind);
 				apDungKhuyenMai.setKhuyenMai(khuyenMai);
 				apDungKhuyenMai.setTrangThaiApdung(true);
 				apDungKhuyenMaiDAO.create(apDungKhuyenMai);
-				
-				
-				for(Map.Entry<ComboDoAn,Integer> entry : mapCombo.entrySet()) {
+
+				for (Map.Entry<ComboDoAn, Integer> entry : mapCombo.entrySet()) {
 					ChiTietCombo chiTietCombo = new ChiTietCombo();
 					chiTietCombo.setHoaDon(hoaDonFind);
 					chiTietCombo.setSoLuong(entry.getValue());
-					chiTietCombo.setTongTien(entry.getKey().getGiaCombo()*entry.getValue());
+					chiTietCombo.setTongTien(entry.getKey().getGiaCombo() * entry.getValue());
 					chiTietComBoDAO.create(chiTietCombo);
 				}
-				
-				for(Ve ve: ves) {
+
+				for (Ve ve : ves) {
 					ve.setHoaDon(hoaDonFind);
 					veDAO.update(ve);
 				}
 			}
-			
+
 			resp.sendRedirect(paymentUrl);
 		} else {
 			List<KhuyenMai> khuyenMais = khuyenMaiDAO.selectAllByDate();
@@ -330,20 +336,22 @@ public class PageUserServlet extends HttpServlet {
 
 	private void doConfirm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String response = req.getParameter("vnp_ResponseCode");
-		if(response.equals("00")) {
+		if (response.equals("00")) {
 			String vnp_TxnRef = req.getParameter("vnp_TxnRef");
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 			String dateString = simpleDateFormat.format(new Date());
-			String code = vnp_TxnRef+dateString;
+			String code = vnp_TxnRef + dateString;
 			HoaDon hoaDon = hoaDonDAO.findByCode(code);
 			hoaDon.setTrangThai(true);
 			hoaDonDAO.update(hoaDon);
+			req.setAttribute("message", "Thanh toán thành công");
 			req.setAttribute("status", true);
-		}else {
+		} else {
+			req.setAttribute("message", "Thanh toán thất bại");
 			req.setAttribute("status", false);
 		}
-		
-		req.setAttribute("view", "/views/user/main/confirm.jsp");
+
+		req.setAttribute("view", "/views/user/main/confim.jsp");
 		req.getRequestDispatcher("/views/user/layoutthanhtoan.jsp").forward(req, resp);
 	}
 }

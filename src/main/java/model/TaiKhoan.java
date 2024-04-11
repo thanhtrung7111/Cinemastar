@@ -18,41 +18,47 @@ public class TaiKhoan {
 	@Id
 	@Column(name = "maTaiKhoan")
 	private String maTaiKhoan;
-	
+
 	@Column(name = "tenTaiKhoan")
 	private String tenTaiKhoan;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "gioiTinh")
 	private Boolean gioiTinh;
-	
+
 	@Column(name = "soDienThoai")
 	private String soDienThoai;
-	
+
 	@Column(name = "matKhau")
 	private String matKhau;
-	
+
 	@Column(name = "ngaySinh")
 	@Temporal(TemporalType.DATE)
 	private String ngaySinh;
-	
+
 	@Column(name = "hinhAnh")
 	private byte[] hinhAnh;
+
+	@Column(name = "trangThai")
+	private Boolean trangThai = false;
 	
+	@Column(name = "token")
+	private String token;
+
 	@ManyToOne
 	@JoinColumn(name = "maLoaiTaiKhoan")
 	private LoaiTaiKhoan loaiTaiKhoan;
-	
+
 	@OneToMany(mappedBy = "taiKhoan")
 	private List<HoaDon> hoaDons;
-	
+
 	@OneToMany(mappedBy = "taiKhoan")
 	private List<BinhLuan> binhLuans;
 
 	public TaiKhoan() {
-		
+
 	}
 
 	public String getMaTaiKhoan() {
@@ -111,7 +117,6 @@ public class TaiKhoan {
 		this.ngaySinh = ngaySinh;
 	}
 
-
 	public byte[] getHinhAnh() {
 		return hinhAnh;
 	}
@@ -143,6 +148,5 @@ public class TaiKhoan {
 	public void setBinhLuans(List<BinhLuan> binhLuans) {
 		this.binhLuans = binhLuans;
 	}
-	
-	
+
 }

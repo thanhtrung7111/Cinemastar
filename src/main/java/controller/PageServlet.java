@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import model.DienVienDaoDien;
 import model.KhuyenMai;
 import model.Phim;
@@ -12,7 +13,15 @@ import model.SuatChieu;
 import model.TaiKhoan;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.DateTimeConverter;
 
 import dao.DienVienDaoDienDAO;
 import dao.KhuyenMaiDAO;
@@ -32,7 +41,6 @@ public class PageServlet extends HttpServlet {
 	private DienVienDaoDienDAO daoDienVienDaoDienDAO;
 	private KhuyenMaiDAO khuyenMaiDAO;
 	private TaiKhoanDAO taiKhoanDAO;
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -74,6 +82,8 @@ public class PageServlet extends HttpServlet {
 			doLogin(req, resp);
 		} else if (uri.contains("logout")) {
 			doLogout(req, resp);
+		} else if (uri.contains("register")) {
+			doRegister(req, resp);
 		}
 
 	}
@@ -169,5 +179,20 @@ public class PageServlet extends HttpServlet {
 		req.getSession().removeAttribute("errorlogin");
 		req.getSession().removeAttribute("user");
 		resp.sendRedirect("/cinemastar/trangchu");
+	}
+
+	private void doRegister(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		try {
+			TaiKhoan taiKhoan = new TaiKhoan();
+			DateTimeConverter dtc = new DateConverter(null);
+			dtc.setPattern("yyyy-MM-dd");
+			ConvertUtils.register(dtc, Date.class);
+			BeanUtils.populate(taiKhoan, req.getParameterMap());
+			taiKhoan.setLoaiTaiKhoan(null);
+			req.setAttribute("view", "/views/user/page/confirmaccount.jsp");
+			req.getRequestDispatcher("/views/user/layout.jsp").forward(req, resp);
+		} catch (Exception e) {
+			resp.sendRedirect("/cinemastar/trangchu");
+		}
 	}
 }
